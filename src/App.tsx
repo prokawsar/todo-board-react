@@ -4,6 +4,14 @@ import SupabaseLogo from "./components/SupabaseLogo";
 import { supabase } from "./db/supabase";
 
 function App() {
+  const user = supabase.auth.getUser();
+  user.then((response) => {
+    console.log(response.data);
+    if (response.data.user) {
+      console.log(response.data.user);
+    }
+  });
+
   return (
     <div className="flex w-full flex-1 flex-col items-center gap-20">
       <div className="animate-in flex max-w-4xl flex-1 flex-col px-3">
