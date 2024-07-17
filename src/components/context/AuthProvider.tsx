@@ -41,7 +41,7 @@ export default function AuthProvider({
     //     setUser(response.data.user)
     //   }
     // })
-  });
+  }, [setUser, navigate]);
   console.log(userData);
   return (
     <AuthContext.Provider value={{ userData, setUser }}>

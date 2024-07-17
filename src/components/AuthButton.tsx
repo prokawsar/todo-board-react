@@ -1,36 +1,31 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightToBracket } from "@fortawesome/free-solid-svg-icons";
-import "@fortawesome/fontawesome-svg-core/styles.css";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthProvider";
 import { supabase } from "../db/supabase";
-import { Link } from "react-router-dom";
-// import { useUserStore } from "@/store";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function AuthButton() {
-  // const { userData } = useContext(AuthContext)
-  // console.log({ userData })
-  // const { userData } = useUserStore();
-  const signOut = () => {
-    // supabase.auth.signOut()
-    // return redirect('/')
+  const navigate = useNavigate();
+  const { userData } = useContext(AuthContext);
+
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    navigate("/login");
   };
-  return <Link to="/login">Login</Link>;
-  // return userData ? (
-  //   <div className="flex items-center gap-4">
-  //     Hey, {userData.email}!
-  //     <form onSubmit={signOut}>
-  //       <button type="submit">
-  //         <FontAwesomeIcon icon={faArrowRightToBracket} />
-  //       </button>
-  //     </form>
-  //   </div>
-  // ) : (
-  //   <a
-  //     href="/login"
-  //     className="flex rounded-md border border-slate-500 px-3 py-2 no-underline hover:bg-slate-100"
-  //   >
-  //     Login
-  //   </a>
-  // );
+  return userData?.id ? (
+    <div className="flex items-center gap-4">
+      Hey, {userData.email}!
+      <button onClick={signOut}>
+        <FontAwesomeIcon icon={faArrowRightToBracket} />
+      </button>
+    </div>
+  ) : (
+    <Link
+      className="flex rounded-md border border-slate-500 px-3 py-2 no-underline hover:bg-slate-100"
+      to="/login"
+    >
+      Login
+    </Link>
+  );
 }

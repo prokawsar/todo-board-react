@@ -1,7 +1,5 @@
-import { useContext } from "react";
 import AuthButton from "./AuthButton";
 import { Link } from "react-router-dom";
-// import { AuthContext } from './context/AuthProvider'
 
 export default function Header() {
   return (

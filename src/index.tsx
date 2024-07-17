@@ -16,22 +16,24 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <BrowserRouter>
-    <Layout>
-      <Routes>
-        <Route path="/" index element={<App />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route
-          path="/dashboard"
-          element={
-            <AuthProvider>
+    <AuthProvider>
+      <Layout>
+        <Routes>
+          <Route path="/" index element={<App />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route
+            path="/dashboard"
+            element={
+              // <AuthProvider>
               <Dashboard />
-            </AuthProvider>
-          }
-        />
-        <Route path="/*" element={<Error />} />
-      </Routes>
-    </Layout>
+              // </AuthProvider>
+            }
+          />
+          <Route path="/*" element={<Error />} />
+        </Routes>
+      </Layout>
+    </AuthProvider>
   </BrowserRouter>
 );
 
