@@ -8,7 +8,12 @@ import { Category, Todo } from "../../types/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
-import { supabase } from "../../db/supabase";
+import {
+  deleteCategory,
+  updateHistory,
+  updateTodosCategory,
+} from "../../db/supabase";
+import { toast } from "sonner";
 
 type Props = {
   category: Category;
@@ -21,8 +26,7 @@ export default function CategoryBoard({ category, todoList }: Props) {
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const { setIsLoading } = useLoadingStore();
   const { cardBoard, setCardBoard } = useCardBoardStore();
-  const { todos, setTodosData, deleteCategory } = useDataStore();
-
+  const { todos, setTodosData, deleteCategoryLocal } = useDataStore();
 
   // Filtering todos here instead passing all todos
   const this_category_todos = todoList?.filter(
@@ -47,14 +51,15 @@ export default function CategoryBoard({ category, todoList }: Props) {
       return;
     }
 
-    const { error } = await supabase
-      .from("todos")
-      .update({
-        category: category.id,
-      })
-      .eq("id", todo_id);
+    const { error } = await updateTodosCategory(
+      { category: category.id },
+      todo_id
+    );
     if (error) {
-      console.error(error);
+      toast.error(error.message);
+      console.error(error.message);
+      setIsLoading(false);
+      return;
     }
 
     // Updating local todos store
@@ -62,26 +67,27 @@ export default function CategoryBoard({ category, todoList }: Props) {
     todos[idx].category = category.id;
     setTodosData(todos);
 
-    const { data } = await supabase.from("history").insert({
+    const payload = {
       todo: todo_id,
       from: category_id,
       to: category.id,
-    });
+    };
+    await updateHistory(payload);
     setIsLoading(false);
   };
 
   const handleDeleteCategory = async () => {
     setIsLoading(true);
-    const { error } = await supabase
-      .from("categories")
-      .delete()
-      .eq("id", category.id);
+
+    const { error } = await deleteCategory({ id: category.id });
     if (error) {
+      toast.error(error.message);
       console.error(error);
+      setIsLoading(false);
+      return;
     }
     // Deleting from local store
-    deleteCategory(category.id);
-    // router.refresh()
+    deleteCategoryLocal(category.id);
     setIsLoading(false);
   };
 

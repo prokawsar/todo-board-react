@@ -1,5 +1,5 @@
 import CloseButton from "../../components/CloseButton";
-import { supabase } from "../../db/supabase";
+import { addHistory, addTodo } from "../../db/supabase";
 import { useDataStore, useLoadingStore, useUserStore } from "../../store";
 import { Category } from "@/types/types";
 import { FormEvent } from "react";
@@ -20,17 +20,14 @@ export default function AddTask({ category, onClose }: AddTaskProps) {
     const formData = new FormData(event.currentTarget);
     if (!formData.get("title")) return;
 
-    const { error, data } = await supabase
-      .from("todos")
-      .insert({
-        title: formData.get("title"),
-        description: formData.get("description"),
-        user: userData?.id,
-        expire_at: formData.get("expire"),
-        category: category?.id,
-      })
-      .select();
-
+    const payload = {
+      title: formData.get("title") || "",
+      description: formData.get("description") || "",
+      user: userData?.id || "",
+      expire_at: formData.get("expire") || "",
+      category: category?.id || "",
+    };
+    const { error, data } = await addTodo(payload);
     if (error) {
       console.error(error);
       return;
@@ -45,13 +42,10 @@ export default function AddTask({ category, onClose }: AddTaskProps) {
       category: category?.id || -1,
     });
 
-    await supabase.from("history").insert({
-      todo: data[0].id,
-      from: null,
-      to: null,
-    });
+    await addHistory({ todo: data[0].id });
+
     setTodosData(todos);
-    onClose()
+    onClose();
     setIsLoading(false);
   };
 
@@ -103,10 +97,7 @@ export default function AddTask({ category, onClose }: AddTaskProps) {
           </button>
         </div>
       </form>
-      <CloseButton
-        onClick={onClose}
-        styles="absolute right-1 -top-5"
-      />
+      <CloseButton onClick={onClose} styles="absolute right-1 -top-5" />
     </div>
   );
 }

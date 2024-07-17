@@ -5,7 +5,7 @@ import { faSave, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, FormEvent, useEffect, ChangeEvent } from "react";
 import HistoryRow from "./history-row";
-import { supabase } from "../../db/supabase";
+import { supabase, updateTodo } from "../../db/supabase";
 
 type Props = {
   data: Todo;
@@ -32,7 +32,7 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
       });
   }, [data]);
 
-  const updateTodo = ({
+  const updateTodoStore = ({
     title,
     description,
     expire_at,
@@ -60,20 +60,16 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
       description: formData.get("description") || "",
       expire_at: formData.get("expire") || "",
     };
-    const { error } = await supabase
-      .from("todos")
-      .update(payload)
-      .eq("id", data.id);
-    // Updating local todos store
-    updateTodo(payload);
+    const { error } = await updateTodo(payload, data.id);
 
+    updateTodoStore(payload);
     setIsLoading(false);
 
     if (error) {
       console.error(error);
       return;
     }
-    setShowDrawer()
+    setShowDrawer();
   };
 
   const handleDelete = async () => {
@@ -81,7 +77,7 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
 
     const { error } = await supabase.from("todos").delete().eq("id", data?.id);
     if (!error) {
-      setShowDrawer()
+      setShowDrawer();
     }
     deleteTodo(data?.id as string);
     setIsLoading(false);

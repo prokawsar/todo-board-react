@@ -41,7 +41,7 @@ interface dataState {
   setTodosData: (todos: Todo[]) => void;
   deleteTodo: (id: string) => void;
   setCategoryData: (todos: Category[]) => void;
-  deleteCategory: (id: number) => void;
+  deleteCategoryLocal: (id: number) => void;
 }
 
 export const useDataStore = create<dataState>()((set) => ({
@@ -54,7 +54,7 @@ export const useDataStore = create<dataState>()((set) => ({
     }));
   },
   setCategoryData: (categories: Category[]) => set({ categories: categories }),
-  deleteCategory: (id: number) => {
+  deleteCategoryLocal: (id: number) => {
     set((state) => ({
       categories: state.categories.filter((category) => category.id != id),
     }));

@@ -1,7 +1,6 @@
-
 import CloseButton from "../../components/CloseButton";
-import { supabase } from "../../db/supabase";
-import { useDataStore, useUserStore } from "../../store";
+import { addCategory } from "../../db/supabase";
+import { useDataStore, useLoadingStore, useUserStore } from "../../store";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FormEvent, useState } from "react";
@@ -9,23 +8,22 @@ import { FormEvent, useState } from "react";
 export default function AddCategory() {
   const [showAddCategory, setShowAddCategory] = useState(false);
   const { userData } = useUserStore();
+  const { setIsLoading } = useLoadingStore();
 
   const { categories, setCategoryData } = useDataStore();
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsLoading(true);
 
     const formData = new FormData(event.currentTarget);
-
     if (!formData.get("name")) return;
+    const payload = {
+      name: formData.get("name")?.toString() || "",
+      user: userData?.id || "",
+    };
 
-    const { error, data } = await supabase
-      .from("categories")
-      .insert({
-        name: formData.get("name"),
-        user: userData?.id,
-      })
-      .select();
+    const { data, error } = await addCategory(payload);
 
     if (!error && data) {
       categories.push({
@@ -34,7 +32,7 @@ export default function AddCategory() {
         user: userData?.id || "",
       });
       setCategoryData(categories);
-
+      setIsLoading(false);
       setShowAddCategory(false);
     }
   };
