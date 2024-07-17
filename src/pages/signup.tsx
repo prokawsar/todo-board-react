@@ -2,27 +2,35 @@ import { Link } from "react-router-dom";
 import { SubmitButton } from "../components/SubmitButton";
 import { supabase } from "../db/supabase";
 
-export default function Login() {
-  // const data = supabase.auth.getUser()
+export default function Signup() {
+  // const {
+  //   data: { user }
+  // } = await supabase.auth.getUser()
 
-  // if (data) {
-  // return redirect('/dashboard')
+  // if (user) {
+  //   return redirect('/dashboard')
   // }
 
-  const signIn = async (formData: FormData) => {
+  const signUp = async (formData: FormData) => {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        emailRedirectTo: process.env.NEXT_PUBLIC_VERCEL_URL
+          ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+          : "http://localhost:3000",
+      },
     });
 
     if (error) {
-      // return redirect('/login?message=Could not authenticate user')
+      console.log(error);
+      // return redirect('/signup?message=Could not signup user. Reason: ' + error.code)
     }
 
-    // return redirect('/dashboard')
+    // return redirect('/login?success=Check email to continue sign in process')
   };
 
   return (
@@ -32,13 +40,7 @@ export default function Login() {
           <p className="mt-4 border border-red-500 bg-red-100 p-4 text-center text-slate-600">
             {searchParams.message}
           </p>
-        )}
-        {searchParams?.success && (
-          <p className="mt-4 border border-teal-500 bg-purple-100 p-4 text-center text-slate-600">
-            {searchParams.success}
-          </p>
         )} */}
-
         <label className="text-md" htmlFor="email">
           Email
         </label>
@@ -57,20 +59,21 @@ export default function Login() {
           autoComplete="off"
           name="password"
           placeholder="••••••••"
+          minLength={6}
           required
         />
         <SubmitButton
-          className="mb-2 rounded-md bg-slate-500 px-4 py-2 text-white hover:bg-slate-600"
-          pendingText="Signing In..."
+          className="mb-2 rounded-md border border-slate-400 px-4 py-2 text-slate-800"
+          pendingText="Signing Up..."
         >
-          Sign In
+          Sign Up
         </SubmitButton>
         <p className="text-center">
-          Haven't account?{" "}
-          <Link className=" text-sky-600" to="/signup">
-            Sign up{" "}
-          </Link>{" "}
-          now.
+          Already have account?{" "}
+          <a className=" text-sky-600" href="/login">
+            {"Log in "}
+          </a>
+          {"here."}
         </p>
       </form>
     </div>

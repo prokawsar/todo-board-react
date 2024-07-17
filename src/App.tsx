@@ -6,7 +6,7 @@ import { supabase } from "./db/supabase";
 function App() {
   const user = supabase.auth.getUser();
   user.then((response) => {
-    console.log(response.data);
+    // console.log(response.data);
     if (response.data.user) {
       console.log(response.data.user);
     }

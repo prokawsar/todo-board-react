@@ -7,6 +7,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./pages/login";
 import { Layout } from "./pages/layout";
 import Dashboard from "./pages/dashboard/page";
+import AuthProvider from "./components/context/AuthProvider";
+import Signup from "./pages/signup";
+import Error from "./pages/error";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -17,7 +20,16 @@ root.render(
       <Routes>
         <Route path="/" index element={<App />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route
+          path="/dashboard"
+          element={
+            <AuthProvider>
+              <Dashboard />
+            </AuthProvider>
+          }
+        />
+        <Route path="/*" element={<Error />} />
       </Routes>
     </Layout>
   </BrowserRouter>
