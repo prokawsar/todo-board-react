@@ -1,4 +1,3 @@
-"use client";
 import { supabase } from "../db/supabase";
 import { useDataStore } from "../store";
 import { Category, Todo } from "../types/types";

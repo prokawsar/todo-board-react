@@ -73,7 +73,7 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
       console.error(error);
       return;
     }
-    // setShowDrawer ? setShowDrawer() : ''
+    setShowDrawer()
   };
 
   const handleDelete = async () => {
@@ -81,7 +81,7 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
 
     const { error } = await supabase.from("todos").delete().eq("id", data?.id);
     if (!error) {
-      // setShowDrawer ? setShowDrawer() : ''
+      setShowDrawer()
     }
     deleteTodo(data?.id as string);
     setIsLoading(false);

@@ -1,18 +1,15 @@
-"use client";
 import CloseButton from "../../components/CloseButton";
 import { supabase } from "../../db/supabase";
 import { useDataStore, useLoadingStore, useUserStore } from "../../store";
 import { Category } from "@/types/types";
-// import { useRouter } from 'next/navigation'
 import { FormEvent } from "react";
 interface AddTaskProps {
-  onClose?: () => void;
+  onClose: () => void;
   category: Category | undefined;
 }
 
 export default function AddTask({ category, onClose }: AddTaskProps) {
   const { userData } = useUserStore();
-  // const router = useRouter()
   const { setIsLoading } = useLoadingStore();
   const { todos, setTodosData } = useDataStore();
 
@@ -54,7 +51,7 @@ export default function AddTask({ category, onClose }: AddTaskProps) {
       to: null,
     });
     setTodosData(todos);
-    // onClose ? onClose() : ''
+    onClose()
     setIsLoading(false);
   };
 
@@ -107,7 +104,7 @@ export default function AddTask({ category, onClose }: AddTaskProps) {
         </div>
       </form>
       <CloseButton
-        onClick={() => (onClose ? onClose() : null)}
+        onClick={onClose}
         styles="absolute right-1 -top-5"
       />
     </div>

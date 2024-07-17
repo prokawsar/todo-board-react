@@ -1,4 +1,4 @@
-"use client";
+
 import CloseButton from "../../components/CloseButton";
 import { supabase } from "../../db/supabase";
 import { useDataStore, useUserStore } from "../../store";
@@ -8,7 +8,6 @@ import { FormEvent, useState } from "react";
 
 export default function AddCategory() {
   const [showAddCategory, setShowAddCategory] = useState(false);
-  // const router = useRouter()
   const { userData } = useUserStore();
 
   const { categories, setCategoryData } = useDataStore();
@@ -36,7 +35,6 @@ export default function AddCategory() {
       });
       setCategoryData(categories);
 
-      // router.refresh()
       setShowAddCategory(false);
     }
   };

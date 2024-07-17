@@ -1,3 +1,4 @@
+import GlobalLoader from "../components/GlobalLoader";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { ReactNode } from "react";
@@ -8,7 +9,7 @@ export function Layout({ children }: { children: ReactNode }) {
       {/* <AuthProvider> */}
       <Header />
       {children}
-      {/* <GlobalLoader /> */}
+      <GlobalLoader />
       {/* </AuthProvider> */}
       <Footer />
     </main>

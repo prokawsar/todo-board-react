@@ -1,4 +1,3 @@
-"use client";
 import Modal from "../../components/Modal";
 import { DragEvent, useEffect, useState } from "react";
 import AddTask from "./add-task";
@@ -10,7 +9,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import { supabase } from "../../db/supabase";
-// import { useRouter } from 'next/navigation'
 
 type Props = {
   category: Category;

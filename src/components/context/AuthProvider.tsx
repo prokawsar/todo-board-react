@@ -1,5 +1,3 @@
-"use client";
-
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../db/supabase";
 import { UserState, useUserStore } from "../../store";
