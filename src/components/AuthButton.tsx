@@ -4,6 +4,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthProvider";
 import { supabase } from "../db/supabase";
+import { Link } from "react-router-dom";
 // import { useUserStore } from "@/store";
 
 export default function AuthButton() {
@@ -14,7 +15,7 @@ export default function AuthButton() {
     // supabase.auth.signOut()
     // return redirect('/')
   };
-  return <a href="/login">Login</a>;
+  return <Link to="/login">Login</Link>;
   // return userData ? (
   //   <div className="flex items-center gap-4">
   //     Hey, {userData.email}!
