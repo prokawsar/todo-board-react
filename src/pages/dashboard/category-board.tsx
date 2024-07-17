@@ -19,31 +19,10 @@ export default function CategoryBoard({ category, todoList }: Props) {
   const [showAddTask, setshowAddTask] = useState(false);
   const [todoData, setTodoData] = useState<Todo>();
   const [isDraggingOver, setIsDraggingOver] = useState(false);
-  // const router = useRouter()
   const { setIsLoading } = useLoadingStore();
   const { cardBoard, setCardBoard } = useCardBoardStore();
   const { todos, setTodosData, deleteCategory } = useDataStore();
 
-  useEffect(() => {
-    const channel = supabase
-      .channel("realtime todos")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "todos",
-        },
-        () => {
-          // router.refresh()
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, []);
 
   // Filtering todos here instead passing all todos
   const this_category_todos = todoList?.filter(
@@ -88,7 +67,6 @@ export default function CategoryBoard({ category, todoList }: Props) {
       from: category_id,
       to: category.id,
     });
-    // router.refresh()
     setIsLoading(false);
   };
 

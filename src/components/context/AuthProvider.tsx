@@ -1,7 +1,7 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../../db/supabase";
 import { UserState, useUserStore } from "../../store";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect } from "react";
 
 export const AuthContext = createContext<UserState>({
   userData: null,
@@ -15,6 +15,7 @@ export default function AuthProvider({
 }) {
   const { userData, setUser } = useUserStore();
   const navigate = useNavigate();
+  const location = useLocation()
   useEffect(() => {
     const checkUser = async () => {
       try {
@@ -23,6 +24,9 @@ export default function AuthProvider({
         } = await supabase.auth.getUser();
         console.log(user);
         if (user) {
+          if(['/login', '/signup'].includes(location.pathname)){
+            navigate('/dashboard');
+          }
           setUser(user);
         } else {
           navigate("/login");
@@ -39,7 +43,7 @@ export default function AuthProvider({
     //     setUser(response.data.user)
     //   }
     // })
-  }, [setUser, navigate]);
+  }, [setUser, navigate, location]);
   console.log(userData);
   return (
     <AuthContext.Provider value={{ userData, setUser }}>

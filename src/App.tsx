@@ -1,16 +1,8 @@
 import React from "react";
 import NextLogo from "./components/NextLogo";
 import SupabaseLogo from "./components/SupabaseLogo";
-import { supabase } from "./db/supabase";
 
 function App() {
-  const user = supabase.auth.getUser();
-  user.then((response) => {
-    // console.log(response.data);
-    if (response.data.user) {
-      console.log(response.data.user);
-    }
-  });
 
   return (
     <div className="flex w-full flex-1 flex-col items-center gap-20">
