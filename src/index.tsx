@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
@@ -16,24 +15,47 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <BrowserRouter>
-    <AuthProvider>
-      <Layout>
-        <Routes>
-          <Route path="/" index element={<App />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route
-            path="/dashboard"
-            element={
-              // <AuthProvider>
+    {/* <AuthProvider> */}
+    <Layout>
+      <Routes>
+        <Route
+          path="/"
+          index
+          element={
+            <AuthProvider>
+              <App />
+            </AuthProvider>
+          }
+        />
+
+        <Route
+          path="/login"
+          element={
+            <AuthProvider>
+              <Login />
+            </AuthProvider>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <AuthProvider>
+              <Signup />
+            </AuthProvider>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <AuthProvider>
               <Dashboard />
-              // </AuthProvider>
-            }
-          />
-          <Route path="/*" element={<Error />} />
-        </Routes>
-      </Layout>
-    </AuthProvider>
+            </AuthProvider>
+          }
+        />
+        <Route path="/*" element={<Error />} />
+      </Routes>
+    </Layout>
+    {/* </AuthProvider> */}
   </BrowserRouter>
 );
 

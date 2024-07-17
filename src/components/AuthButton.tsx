@@ -4,13 +4,16 @@ import { useContext } from "react";
 import { AuthContext } from "./context/AuthProvider";
 import { supabase } from "../db/supabase";
 import { Link, useNavigate } from "react-router-dom";
+import { useUserStore } from "../store";
 
 export default function AuthButton() {
   const navigate = useNavigate();
-  const { userData } = useContext(AuthContext);
+  // const { userData } = useContext(AuthContext);
+  const { userData, setUser } = useUserStore();
 
   const signOut = async () => {
     await supabase.auth.signOut();
+    setUser(null);
     navigate("/login");
   };
   return userData?.id ? (

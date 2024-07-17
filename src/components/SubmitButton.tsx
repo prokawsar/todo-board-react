@@ -12,5 +12,5 @@ export function SubmitButton({ children, pendingText, ...props }: Props) {
   //     {isPending ? pendingText : children}
   //   </button>
   // )
-  return <button>{children}</button>;
+  return <button {...props}>{children}</button>;
 }

@@ -15,36 +15,25 @@ export default function AuthProvider({
 }) {
   const { userData, setUser } = useUserStore();
   const navigate = useNavigate();
-  const location = useLocation()
+  const location = useLocation();
+
   useEffect(() => {
-    const checkUser = async () => {
-      try {
-        const {
-          data: { user },
-        } = await supabase.auth.getUser();
-        console.log(user);
-        if (user) {
-          if(['/login', '/signup'].includes(location.pathname)){
-            navigate('/dashboard');
-          }
-          setUser(user);
-        } else {
+    const res = supabase.auth.getUser();
+    res.then((response) => {
+      if (response.data.user) {
+        setUser(response.data.user);
+        console.log(location.pathname);
+        if (["/login", "/signup", "/"].includes(location.pathname)) {
+          navigate("/dashboard");
+        }
+      } else {
+        if (["/dashboard"].includes(location.pathname)) {
           navigate("/login");
         }
-      } catch (error) {
-        console.error(error);
       }
-    };
-
-    checkUser();
-    // const res = supabase.auth.getUser()
-    // res.then((response) => {
-    //   if (response.data.user) {
-    //     setUser(response.data.user)
-    //   }
-    // })
+    });
   }, [setUser, navigate, location]);
-  console.log(userData);
+
   return (
     <AuthContext.Provider value={{ userData, setUser }}>
       {children}
