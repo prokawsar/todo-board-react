@@ -1,7 +1,8 @@
-import { useDataStore, useUserStore } from "../../store";
+import { useDataStore } from "../../store";
 import CategoryBoard from "./category-board";
 import { useContext } from "react";
 import { AuthContext } from "../../components/context/AuthProvider";
+import AddCategory from "./add-category";
 
 export default function BoardList() {
   const { categories, todos } = useDataStore();
@@ -13,10 +14,10 @@ export default function BoardList() {
 
   return (
     <>
-      {!this_users_category && <p>Loading...</p>}
       {this_users_category?.map((category) => (
         <CategoryBoard category={category} todoList={todos} key={category.id} />
       ))}
+      <AddCategory />
     </>
   );
 }
