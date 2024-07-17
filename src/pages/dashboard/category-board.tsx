@@ -1,5 +1,5 @@
 import Modal from "../../components/Modal";
-import { DragEvent, useEffect, useState } from "react";
+import { DragEvent, useState } from "react";
 import AddTask from "./add-task";
 import Card from "./card";
 import { useCardBoardStore, useDataStore, useLoadingStore } from "../../store";
@@ -42,7 +42,7 @@ export default function CategoryBoard({ category, todoList }: Props) {
     const todo_id = e.dataTransfer.getData("card");
     const category_id = e.dataTransfer.getData("category_id");
 
-    if (!todo_id || category.id.toString() == category_id) {
+    if (!todo_id || category.id.toString() === category_id) {
       setIsLoading(false);
       return;
     }
