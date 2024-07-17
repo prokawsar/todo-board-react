@@ -1,7 +1,7 @@
 "use client";
-import CloseButton from "@/components/CloseButton";
-import { supabase } from "@/db/supabase";
-import { useDataStore, useLoadingStore, useUserStore } from "@/store";
+import CloseButton from "../../components/CloseButton";
+import { supabase } from "../../db/supabase";
+import { useDataStore, useLoadingStore, useUserStore } from "../../store";
 import { Category } from "@/types/types";
 // import { useRouter } from 'next/navigation'
 import { FormEvent } from "react";

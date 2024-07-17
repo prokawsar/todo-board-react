@@ -1,7 +1,7 @@
 "use client";
-import CloseButton from "@/components/CloseButton";
-import { supabase } from "@/db/supabase";
-import { useDataStore, useUserStore } from "@/store";
+import CloseButton from "../../components/CloseButton";
+import { supabase } from "../../db/supabase";
+import { useDataStore, useUserStore } from "../../store";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FormEvent, useState } from "react";

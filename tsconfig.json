@@ -4,10 +4,10 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "paths": {
       "@/*": ["./src/*"],
-      "@/components": ["./src/components"],
-      "@/db": ["./src/db"],
-      "@/store": ["./src/store"],
-      "@/utils": ["./src/utils"]
+      "@/components/*": ["./src/components/*"],
+      "@/db/*": ["./src/db/*"],
+      "@/store/*": ["./src/store/*"],
+      "@/utils/*": ["./src/utils/*"]
     },
     "allowJs": true,
     "skipLibCheck": true,

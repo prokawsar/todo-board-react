@@ -1,11 +1,11 @@
-import CloseButton from "@/components/CloseButton";
-import { useDataStore, useLoadingStore } from "@/store";
-import { History, Todo } from "@/types/types";
+import CloseButton from "../../components/CloseButton";
+import { useDataStore, useLoadingStore } from "../../store";
+import { History, Todo } from "../../types/types";
 import { faSave, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, FormEvent, useEffect, ChangeEvent } from "react";
 import HistoryRow from "./history-row";
-import { supabase } from "@/db/supabase";
+import { supabase } from "../../db/supabase";
 
 type Props = {
   data: Todo;

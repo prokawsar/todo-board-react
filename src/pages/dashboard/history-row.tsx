@@ -1,5 +1,5 @@
-import { useDataStore } from "@/store";
-import { History, Todo } from "@/types/types";
+import { useDataStore } from "../../store";
+import { History, Todo } from "../../types/types";
 import { niceDate } from "../../utils/date";
 
 type DataProp = {

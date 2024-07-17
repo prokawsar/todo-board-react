@@ -1,7 +1,7 @@
 "use client";
 import { supabase } from "../db/supabase";
-import { useDataStore } from "@/store";
-import { Category, Todo } from "@/types/types";
+import { useDataStore } from "../store";
+import { Category, Todo } from "../types/types";
 import { useEffect } from "react";
 
 export default function ClientDataLoader() {

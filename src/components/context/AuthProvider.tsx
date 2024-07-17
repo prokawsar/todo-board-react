@@ -1,7 +1,7 @@
 "use client";
 
-import { supabase } from "@/db/supabase";
-import { UserState, useUserStore } from "@/store";
+import { supabase } from "../../db/supabase";
+import { UserState, useUserStore } from "../../store";
 import { createContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext<UserState>({

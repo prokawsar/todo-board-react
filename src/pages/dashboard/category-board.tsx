@@ -1,15 +1,15 @@
 "use client";
-import Modal from "@/components/Modal";
+import Modal from "../../components/Modal";
 import { DragEvent, useEffect, useState } from "react";
 import AddTask from "./add-task";
 import Card from "./card";
-import { useCardBoardStore, useDataStore, useLoadingStore } from "@/store";
+import { useCardBoardStore, useDataStore, useLoadingStore } from "../../store";
 import CardDetails from "./card-details";
-import { Category, Todo } from "@/types/types";
+import { Category, Todo } from "../../types/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
-import { supabase } from "@/db/supabase";
+import { supabase } from "../../db/supabase";
 // import { useRouter } from 'next/navigation'
 
 type Props = {
