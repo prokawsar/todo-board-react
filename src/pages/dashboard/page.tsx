@@ -9,16 +9,23 @@ export default function Dashboard() {
   const { setCategoryData, setTodosData } = useDataStore();
 
   useEffect(() => {
+    document.title = "Dashboard";
+
     setIsLoading(true);
     const dataCategories = supabase.from("categories").select();
     const dataTodos = supabase.from("todos").select();
 
-    Promise.all([dataCategories, dataTodos]).then((values) => {
-      setCategoryData(values[0].data as Category[]);
-      setTodosData(values[1].data as Todo[]);
+    Promise.all([dataCategories, dataTodos])
+      .then((values) => {
+        setCategoryData(values[0].data as Category[]);
+        setTodosData(values[1].data as Todo[]);
 
-      setIsLoading(false);
-    });
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        // Handle error
+        console.log(error);
+      });
   }, []);
 
   return (
