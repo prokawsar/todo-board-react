@@ -9,7 +9,6 @@ export default function BoardList() {
   // const { userData } = useUserStore()
   const { categories, todos } = useDataStore();
   const { userData } = useContext(AuthContext);
-  console.log({ userData });
   // Restricted access category for users
   const this_users_category = categories?.filter(
     (category) => category.user == userData?.id
