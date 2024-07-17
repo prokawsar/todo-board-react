@@ -3,6 +3,7 @@ import { SubmitButton } from "../components/SubmitButton";
 import { supabase } from "../db/supabase";
 import { useState } from "react";
 import { useUserStore } from "../store";
+import { toast } from "sonner";
 
 const initialData = {
   email: "",
@@ -12,6 +13,7 @@ const initialData = {
 export default function Login() {
   const navigate = useNavigate();
   const [loginData, setData] = useState(initialData);
+  const [isSubmit, setSubmit] = useState(false);
   const { setUser } = useUserStore();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -24,7 +26,9 @@ export default function Login() {
 
   const signIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isSubmit) return;
 
+    setSubmit(true);
     const { data, error } = await supabase.auth.signInWithPassword({
       email: loginData.email,
       password: loginData.password,
@@ -33,8 +37,14 @@ export default function Login() {
       console.log(data.user);
       setUser(data.user);
       navigate("/dashboard");
+      toast.success("Login in successful");
+    } else {
+      toast.error(error.message);
     }
+    setSubmit(false);
   };
+
+  document.title = "Login";
 
   return (
     <div className="flex w-full flex-1 flex-col justify-center gap-2 px-8 sm:max-w-md">
@@ -57,8 +67,9 @@ export default function Login() {
           Email
         </label>
         <input
-          className="mb-6 rounded-md border bg-inherit px-4 py-2"
+          className="mb-6 rounded-md border bg-inherit px-4 py-2 invalid:border-red-500 focus:outline-none"
           name="email"
+          type="email"
           onChange={handleChange}
           placeholder="you@example.com"
           required
@@ -67,7 +78,7 @@ export default function Login() {
           Password
         </label>
         <input
-          className="mb-6 rounded-md border bg-inherit px-4 py-2"
+          className="mb-6 rounded-md border bg-inherit px-4 py-2 invalid:border-red-500 focus:outline-none"
           type="password"
           onChange={handleChange}
           autoComplete="off"
@@ -76,7 +87,9 @@ export default function Login() {
           required
         />
         <SubmitButton
-          className="mb-2 rounded-md bg-slate-500 px-4 py-2 text-white hover:bg-slate-600"
+          disabled={isSubmit}
+          isSubmit={isSubmit}
+          className="mb-2 rounded-md bg-slate-500 px-4 py-2 disabled:cursor-not-allowed text-white hover:bg-slate-600"
           pendingText="Signing In..."
         >
           Sign In

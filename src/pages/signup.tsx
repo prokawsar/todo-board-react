@@ -43,6 +43,8 @@ export default function Signup() {
     // return redirect('/login?success=Check email to continue sign in process')
   };
 
+  document.title = "Signup";
+
   return (
     <div className="flex w-full flex-1 flex-col justify-center gap-2 px-8 sm:max-w-md">
       <form
@@ -58,8 +60,10 @@ export default function Signup() {
           Email
         </label>
         <input
-          className="mb-6 rounded-md border bg-inherit px-4 py-2"
+          className="mb-6 rounded-md border bg-inherit px-4 py-2 invalid:border-red-500 focus:outline-none"
           name="email"
+          type="email"
+          autoComplete="off"
           onChange={handleChange}
           placeholder="you@example.com"
           required
@@ -68,7 +72,7 @@ export default function Signup() {
           Password
         </label>
         <input
-          className="mb-6 rounded-md border bg-inherit px-4 py-2"
+          className="mb-6 rounded-md border bg-inherit px-4 py-2 invalid:border-red-500 focus:outline-none"
           type="password"
           autoComplete="off"
           onChange={handleChange}
@@ -77,19 +81,28 @@ export default function Signup() {
           minLength={6}
           required
         />
-        <label className="text-md" htmlFor="password">
-          Confirm Password
-        </label>
-        <input
-          className="mb-6 rounded-md border bg-inherit px-4 py-2"
-          type="password"
-          autoComplete="off"
-          onChange={handleChange}
-          name="confirm_password"
-          placeholder="••••••••"
-          minLength={6}
-          required
-        />
+        <div className="flex flex-col mb-6 gap-2">
+          <label className="text-md" htmlFor="confirm_password">
+            Confirm Password
+          </label>
+          <input
+            className={`rounded-md border bg-inherit px-4 py-2 invalid:border-red-400 focus:outline-none`}
+            type="password"
+            autoComplete="off"
+            onChange={handleChange}
+            name="confirm_password"
+            placeholder="••••••••"
+            minLength={6}
+            required
+          />
+          {signupData &&
+          signupData.confirm_password !== "" &&
+          signupData.password !== signupData.confirm_password ? (
+            <p className="text-red-400">Password do not match</p>
+          ) : (
+            ""
+          )}
+        </div>
         <SubmitButton
           className="mb-2 rounded-md border border-slate-400 px-4 py-2 text-slate-800"
           pendingText="Signing Up..."

@@ -2,9 +2,15 @@ import { type ComponentProps } from "react";
 
 type Props = ComponentProps<"button"> & {
   pendingText?: string;
+  isSubmit?: boolean;
 };
 
-export function SubmitButton({ children, pendingText, ...props }: Props) {
+export function SubmitButton({
+  children,
+  pendingText,
+  isSubmit,
+  ...props
+}: Props) {
   // const { pending, action } = useFormStatus()
   // const isPending = pending && action === props.formAction
   // return (
@@ -12,5 +18,5 @@ export function SubmitButton({ children, pendingText, ...props }: Props) {
   //     {isPending ? pendingText : children}
   //   </button>
   // )
-  return <button {...props}>{children}</button>;
+  return <button {...props}>{isSubmit ? pendingText : children}</button>;
 }
