@@ -1,11 +1,11 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../../db/supabase";
-import { UserState, useUserStore } from "../../store";
+import { User, useUserStore } from "../../store";
 import { createContext, useEffect } from "react";
+import { PROTECTED_ROUTES, UNAUTHENTICATE_ROUTES } from "../../utils/constants";
 
-export const AuthContext = createContext<UserState>({
+export const AuthContext = createContext<{ userData: User | null }>({
   userData: null,
-  setUser: () => {},
 });
 
 export default function AuthProvider({
@@ -18,25 +18,23 @@ export default function AuthProvider({
   const location = useLocation();
 
   useEffect(() => {
-    const res = supabase.auth.getUser();
-    res.then((response) => {
-      if (response.data.user) {
-        setUser(response.data.user);
-        console.log(location.pathname);
-        if (["/login", "/signup", "/"].includes(location.pathname)) {
-          navigate("/dashboard");
-        }
-      } else {
-        if (["/dashboard"].includes(location.pathname)) {
+    if (!userData) {
+      const res = supabase.auth.getUser();
+      res.then((response) => {
+        if (response.data.user) {
+          setUser(response.data.user);
+        } else if (PROTECTED_ROUTES.includes(location.pathname)) {
           navigate("/login");
         }
+      });
+    } else {
+      if (UNAUTHENTICATE_ROUTES.includes(location.pathname)) {
+        navigate("/dashboard");
       }
-    });
-  }, [setUser, navigate, location]);
+    }
+  }, [navigate, location, userData, setUser]);
 
   return (
-    <AuthContext.Provider value={{ userData, setUser }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={{ userData }}>{children}</AuthContext.Provider>
   );
 }
