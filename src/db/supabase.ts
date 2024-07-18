@@ -80,14 +80,17 @@ export const updateHistory = async ({
   todo,
   from,
   to,
+  updated_at,
 }: {
   todo: string;
-  from: string;
-  to: number;
+  from?: string;
+  to?: number;
+  updated_at?: Date;
 }) => {
   return await supabase.from("history").insert({
     todo: todo,
-    from: from,
-    to: to,
+    from: from || null,
+    to: to || null,
+    updated_at: updated_at || null,
   });
 };

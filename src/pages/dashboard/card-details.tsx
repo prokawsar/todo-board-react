@@ -5,7 +5,8 @@ import { faSave, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, FormEvent, useEffect, ChangeEvent } from "react";
 import HistoryRow from "./history-row";
-import { supabase, updateTodo } from "../../db/supabase";
+import { supabase, updateHistory, updateTodo } from "../../db/supabase";
+import { toast } from "sonner";
 
 type Props = {
   data: Todo;
@@ -61,14 +62,18 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
       expire_at: formData.get("expire") || "",
     };
     const { error } = await updateTodo(payload, data.id);
-
-    updateTodoStore(payload);
     setIsLoading(false);
 
     if (error) {
-      console.error(error);
+      toast.error(error.message);
       return;
     }
+
+    await updateHistory({
+      todo: data.id,
+      updated_at: new Date(),
+    });
+    updateTodoStore(payload);
     setShowDrawer();
   };
 
@@ -182,13 +187,15 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
                 } animate-in mt-2 max-h-80 flex-col gap-2 overflow-y-auto rounded border bg-slate-50 p-2`}
               >
                 {todoHistory &&
-                  todoHistory.map((history: History) => (
-                    <HistoryRow
-                      key={history.id}
-                      history={history}
-                      todo={data}
-                    />
-                  ))}
+                  todoHistory
+                    .sort((a: History, b: History) => a.id - b.id)
+                    .map((history: History) => (
+                      <HistoryRow
+                        key={history.id}
+                        history={history}
+                        todo={data}
+                      />
+                    ))}
               </div>
               <div className="mt-5 flex justify-between">
                 {deleteConfirm && (

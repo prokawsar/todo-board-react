@@ -19,4 +19,5 @@ export type History = {
   from: number;
   to: number;
   created_at: Date;
+  updated_at: Date;
 };
