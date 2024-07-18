@@ -1,19 +1,20 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightToBracket } from "@fortawesome/free-solid-svg-icons";
-import { useContext } from "react";
-import { AuthContext } from "./context/AuthProvider";
 import { supabase } from "../db/supabase";
 import { Link, useNavigate } from "react-router-dom";
-import { useUserStore } from "../store";
+import { useLoadingStore, useUserStore } from "../store";
 
 export default function AuthButton() {
   const navigate = useNavigate();
   // const { userData } = useContext(AuthContext);
+  const { setIsLoading } = useLoadingStore();
   const { userData, setUser } = useUserStore();
 
   const signOut = async () => {
+    setIsLoading(true);
     await supabase.auth.signOut();
     setUser(null);
+    setIsLoading(false);
     navigate("/login");
   };
   return userData?.id ? (

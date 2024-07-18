@@ -8,9 +8,9 @@ export default function Dashboard() {
   const { setIsLoading } = useLoadingStore();
   const { setCategoryData, setTodosData } = useDataStore();
 
-  useEffect(() => {
-    document.title = "Dashboard";
+  document.title = "Dashboard";
 
+  useEffect(() => {
     setIsLoading(true);
     const dataCategories = supabase.from("categories").select();
     const dataTodos = supabase.from("todos").select();

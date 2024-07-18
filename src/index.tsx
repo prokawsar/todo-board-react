@@ -15,7 +15,6 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <BrowserRouter>
-    {/* <AuthProvider> */}
     <Layout>
       <Routes>
         <Route
@@ -55,7 +54,6 @@ root.render(
         <Route path="/*" element={<Error />} />
       </Routes>
     </Layout>
-    {/* </AuthProvider> */}
   </BrowserRouter>
 );
 
