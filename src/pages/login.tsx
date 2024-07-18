@@ -1,39 +1,30 @@
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { SubmitButton } from "../components/SubmitButton";
 import { supabase } from "../db/supabase";
-import { ChangeEvent, FormEvent, useState } from "react";
 import { useUserStore } from "../store";
 import { toast } from "sonner";
-
-const initialData = {
-  email: "",
-  password: "",
-};
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LoginFields, loginSchema } from "../types/types";
 
 export default function Login() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
-  const [loginData, setData] = useState(initialData);
-  const [isSubmit, setSubmit] = useState(false);
   const { setUser } = useUserStore();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFields>({
+    resolver: zodResolver(loginSchema),
+  });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target;
-    setData({
-      ...loginData,
-      [name]: value,
-    });
-  };
+  // console.log(errors);
 
-  const signIn = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (isSubmit) return;
+  const signIn: SubmitHandler<LoginFields> = async (payload) => {
+    if (isSubmitting || Object.keys(errors).length) return;
 
-    setSubmit(true);
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: loginData.email,
-      password: loginData.password,
-    });
+    const { data, error } = await supabase.auth.signInWithPassword(payload);
     if (!error) {
       const { id, email } = data.user,
         user = { id, email };
@@ -44,7 +35,6 @@ export default function Login() {
     } else {
       toast.error(error.message);
     }
-    setSubmit(false);
   };
 
   document.title = "Login";
@@ -52,7 +42,7 @@ export default function Login() {
   return (
     <div className="flex w-full flex-1 flex-col justify-center gap-2 px-8 sm:max-w-md">
       <form
-        onSubmit={signIn}
+        onSubmit={handleSubmit(signIn)}
         className="animate-in flex w-full flex-1 flex-col justify-center gap-2"
       >
         {/* {searchParams?.message && (
@@ -68,33 +58,43 @@ export default function Login() {
           ""
         )}
 
-        <label className="text-md" htmlFor="email">
-          Email
-        </label>
-        <input
-          className="mb-6 rounded-md border bg-inherit px-4 py-2 invalid:border-red-500 focus:outline-none"
-          name="email"
-          type="email"
-          onChange={handleChange}
-          placeholder="you@example.com"
-          required
-        />
-        <label className="text-md" htmlFor="password">
-          Password
-        </label>
-        <input
-          className="mb-6 rounded-md border bg-inherit px-4 py-2 invalid:border-red-500 focus:outline-none"
-          type="password"
-          onChange={handleChange}
-          autoComplete="off"
-          name="password"
-          placeholder="••••••••"
-          required
-        />
+        <div className="flex flex-col gap-2">
+          <label className="text-md" htmlFor="email">
+            Email
+          </label>
+          <input
+            className={`rounded-md border bg-inherit px-4 py-2 focus:outline-none ${
+              errors.email && "border-red-500"
+            }`}
+            type="email"
+            {...register("email")}
+            placeholder="you@example.com"
+          />
+          {errors.email && (
+            <p className="text-red-500">{errors.email.message}</p>
+          )}
+        </div>
+        <div className="flex flex-col gap-2">
+          <label className="text-md" htmlFor="password">
+            Password
+          </label>
+          <input
+            className={`rounded-md border bg-inherit px-4 py-2 focus:outline-none ${
+              errors.password && "border-red-500"
+            }`}
+            type="password"
+            autoComplete="off"
+            {...register("password")}
+            placeholder="••••••••"
+          />
+          {errors.password && (
+            <p className="text-red-500">{errors.password.message}</p>
+          )}
+        </div>
         <SubmitButton
-          disabled={isSubmit}
-          isSubmit={isSubmit}
-          className="mb-2 rounded-md bg-slate-500 px-4 py-2 disabled:cursor-not-allowed text-white hover:bg-slate-600"
+          disabled={isSubmitting}
+          isSubmit={isSubmitting}
+          className="my-2 rounded-md bg-slate-500 px-4 py-2 disabled:cursor-not-allowed text-white hover:bg-slate-600"
           pendingText="Signing In..."
         >
           Sign In
