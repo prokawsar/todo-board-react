@@ -19,22 +19,6 @@ export default function HistoryRow({ history, todo }: DataProp) {
 
   return (
     <div className="text-sm">
-      {/* <p
-        className={`${
-          !history.from && !history.to && !history.updated_at
-            ? "block"
-            : "hidden"
-        }`}
-      >
-        Created ticket {todo.title} on{" "}
-        {niceDate(history.created_at, false, true)}
-      </p>
-      <p className={`${history.from && history.to ? "block" : "hidden"}`}>
-        Card has been moved from <b>{categoryMap[history.from]}</b> to{" "}
-        <b>{categoryMap[history.to]}</b> on{" "}
-        {niceDate(history.created_at, false, true)}
-      </p> */}
-
       <p>
         {!history.from && !history.to && !history.updated_at
           ? `Created ticket ${todo.title} on `

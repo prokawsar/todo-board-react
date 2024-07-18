@@ -30,8 +30,8 @@ export default function Login() {
         user = { id, email };
 
       setUser(user);
-      navigate("/dashboard");
       toast.success("Login in successful");
+      navigate("/dashboard");
     } else {
       toast.error(error.message);
     }

@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 import CloseButton from "../../components/CloseButton";
 import { addCategory } from "../../db/supabase";
 import { useDataStore, useLoadingStore, useUserStore } from "../../store";
@@ -24,17 +25,21 @@ export default function AddCategory() {
     };
 
     const { data, error } = await addCategory(payload);
-
-    if (!error && data) {
-      categories.push({
-        id: data[0].id,
-        name: formData.get("name")?.toString() || "",
-        user: userData?.id || "",
-      });
-      setCategoryData(categories);
+    if (error) {
+      toast.error(error.message);
       setIsLoading(false);
-      setShowAddCategory(false);
+      return;
     }
+
+    // Saving to local
+    categories.push({
+      id: data[0].id,
+      name: formData.get("name")?.toString() || "",
+      user: userData?.id || "",
+    });
+    setCategoryData(categories);
+    setIsLoading(false);
+    setShowAddCategory(false);
   };
 
   return (
