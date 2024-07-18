@@ -18,7 +18,7 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
   const [todoHistory, setHistory] = useState<any>();
   const [todoData, setTodoData] = useState<Todo>(data);
   const { setIsLoading } = useLoadingStore();
-  const { todos, setTodosData, deleteTodo } = useDataStore();
+  const { todos, setTodosData, deleteTodoLocal } = useDataStore();
 
   useEffect(() => {
     setTodoData(data);
@@ -81,10 +81,14 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
     setIsLoading(true);
 
     const { error } = await supabase.from("todos").delete().eq("id", data?.id);
-    if (!error) {
+    if (error) {
+      toast.error(error.message);
       setShowDrawer();
+      setIsLoading(false);
+      return;
     }
-    deleteTodo(data?.id as string);
+    // Deleting from local store
+    deleteTodoLocal(data?.id as string);
     setIsLoading(false);
   };
 

@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 import CloseButton from "../../components/CloseButton";
 import { addHistory, addTodo } from "../../db/supabase";
 import { useDataStore, useLoadingStore, useUserStore } from "../../store";
@@ -30,9 +31,12 @@ export default function AddTask({ category, onClose }: AddTaskProps) {
     };
     const { error, data } = await addTodo(payload);
     if (error) {
-      console.error(error);
+      toast.error(error.message);
+      setIsLoading(false);
       return;
     }
+
+    await addHistory({ todo: data[0].id });
 
     todos.push({
       id: data[0].id,
@@ -42,8 +46,6 @@ export default function AddTask({ category, onClose }: AddTaskProps) {
       expire_at: formData.get("expire")?.toString() || "",
       category: category?.id || -1,
     });
-
-    await addHistory({ todo: data[0].id });
 
     setTodosData(todos);
     onClose();
