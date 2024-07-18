@@ -43,6 +43,7 @@ export default function Signup() {
       setSubmit(false);
       return;
     }
+    // navigate("/login?success=Check email to continue sign in process");
     navigate("/dashboard");
     setSubmit(false);
   };

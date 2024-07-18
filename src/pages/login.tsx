@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { SubmitButton } from "../components/SubmitButton";
 import { supabase } from "../db/supabase";
 import { ChangeEvent, FormEvent, useState } from "react";
@@ -12,6 +12,7 @@ const initialData = {
 
 export default function Login() {
   const navigate = useNavigate();
+  const [params] = useSearchParams();
   const [loginData, setData] = useState(initialData);
   const [isSubmit, setSubmit] = useState(false);
   const { setUser } = useUserStore();
@@ -56,12 +57,12 @@ export default function Login() {
           <p className="mt-4 border border-red-500 bg-red-100 p-4 text-center text-slate-600">
             {searchParams.message}
           </p>
-        )}
-        {searchParams?.success && (
-          <p className="mt-4 border border-teal-500 bg-purple-100 p-4 text-center text-slate-600">
-            {searchParams.success}
-          </p>
         )} */}
+        {params.size && params.get("success") && (
+          <p className="mt-4 border border-teal-500 bg-green-100/50 rounded p-4 text-center text-slate-600">
+            {params.get("success")}
+          </p>
+        )}
 
         <label className="text-md" htmlFor="email">
           Email
