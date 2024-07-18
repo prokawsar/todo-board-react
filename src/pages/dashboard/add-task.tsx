@@ -3,6 +3,7 @@ import { addHistory, addTodo } from "../../db/supabase";
 import { useDataStore, useLoadingStore, useUserStore } from "../../store";
 import { Category } from "@/types/types";
 import { FormEvent } from "react";
+
 interface AddTaskProps {
   onClose: () => void;
   category: Category | undefined;
@@ -63,6 +64,7 @@ export default function AddTask({ category, onClose }: AddTaskProps) {
         <div className="flex w-full flex-col gap-3">
           <label>Title</label>
           <input
+            autoFocus
             required
             autoComplete="off"
             name="title"

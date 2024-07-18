@@ -57,7 +57,6 @@ export default function CategoryBoard({ category, todoList }: Props) {
     );
     if (error) {
       toast.error(error.message);
-      console.error(error.message);
       setIsLoading(false);
       return;
     }
@@ -82,7 +81,6 @@ export default function CategoryBoard({ category, todoList }: Props) {
     const { error } = await deleteCategory({ id: category.id });
     if (error) {
       toast.error(error.message);
-      console.error(error);
       setIsLoading(false);
       return;
     }
@@ -111,7 +109,7 @@ export default function CategoryBoard({ category, todoList }: Props) {
         {!this_category_todos?.length && (
           <button
             onClick={handleDeleteCategory}
-            className="absolute right-0 top-0 h-4 w-6"
+            className="absolute text-red-500 hover:bg-white flex items-center justify-center rounded p-1 right-0 top-1 h-4 w-6"
           >
             <FontAwesomeIcon icon={faTrashAlt} size="xs" />
           </button>

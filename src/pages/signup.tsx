@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SubmitButton } from "../components/SubmitButton";
 import { supabase } from "../db/supabase";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { toast } from "sonner";
 
 const initialData = {
   email: "",
@@ -10,9 +11,11 @@ const initialData = {
 };
 
 export default function Signup() {
+  const navigate = useNavigate();
   const [signupData, setData] = useState(initialData);
+  const [isSubmit, setSubmit] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     setData({
       ...signupData,
@@ -20,11 +23,11 @@ export default function Signup() {
     });
   };
 
-  const signUp = async (e: React.FormEvent) => {
+  const signUp = async (e: FormEvent) => {
     e.preventDefault();
-    console.log(signupData);
-    return;
+    if (isSubmit) return;
 
+    setSubmit(true);
     const { error } = await supabase.auth.signUp({
       email: signupData.email,
       password: signupData.password,
@@ -36,11 +39,12 @@ export default function Signup() {
     });
 
     if (error) {
-      console.log(error);
-      // return redirect('/signup?message=Could not signup user. Reason: ' + error.code)
+      toast.error(error.message);
+      setSubmit(false);
+      return;
     }
-
-    // return redirect('/login?success=Check email to continue sign in process')
+    navigate("/dashboard");
+    setSubmit(false);
   };
 
   document.title = "Signup";
@@ -51,11 +55,6 @@ export default function Signup() {
         onSubmit={signUp}
         className="animate-in flex w-full flex-1 flex-col justify-center gap-2"
       >
-        {/* {searchParams?.message && (
-          <p className="mt-4 border border-red-500 bg-red-100 p-4 text-center text-slate-600">
-            {searchParams.message}
-          </p>
-        )} */}
         <label className="text-md" htmlFor="email">
           Email
         </label>
@@ -104,16 +103,18 @@ export default function Signup() {
           )}
         </div>
         <SubmitButton
-          className="mb-2 rounded-md border border-slate-400 px-4 py-2 text-slate-800"
+          disabled={isSubmit}
+          isSubmit={isSubmit}
+          className="mb-2 rounded-md border border-slate-400 px-4 py-2 text-slate-800 disabled:cursor-not-allowed"
           pendingText="Signing Up..."
         >
           Sign Up
         </SubmitButton>
         <p className="text-center">
           Already have account?{" "}
-          <a className=" text-sky-600" href="/login">
+          <Link className=" text-sky-600" to="/login">
             {"Log in "}
-          </a>
+          </Link>
           {"here."}
         </p>
       </form>

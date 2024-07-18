@@ -53,6 +53,7 @@ export default function AddCategory() {
         <div className="flex flex-col">
           <form onSubmit={(e) => onSubmit(e)}>
             <input
+              autoFocus
               required
               autoComplete="off"
               name="name"

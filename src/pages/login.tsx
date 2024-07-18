@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { SubmitButton } from "../components/SubmitButton";
 import { supabase } from "../db/supabase";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { useUserStore } from "../store";
 import { toast } from "sonner";
 
@@ -16,7 +16,7 @@ export default function Login() {
   const [isSubmit, setSubmit] = useState(false);
   const { setUser } = useUserStore();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     setData({
       ...loginData,
@@ -24,7 +24,7 @@ export default function Login() {
     });
   };
 
-  const signIn = async (e: React.FormEvent<HTMLFormElement>) => {
+  const signIn = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isSubmit) return;
 
