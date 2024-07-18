@@ -6,7 +6,7 @@ import { useCardBoardStore, useDataStore, useLoadingStore } from "../../store";
 import CardDetails from "./card-details";
 import { Category, Todo } from "../../types/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faMultiply, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import {
   deleteCategory,
@@ -21,6 +21,7 @@ type Props = {
 };
 
 export default function CategoryBoard({ category, todoList }: Props) {
+  const [deleteConfirm, setDeleteConfirm] = useState(false);
   const [showAddTask, setshowAddTask] = useState(false);
   const [todoData, setTodoData] = useState<Todo>();
   const [isDraggingOver, setIsDraggingOver] = useState(false);
@@ -105,15 +106,50 @@ export default function CategoryBoard({ category, todoList }: Props) {
           : ""
       }`}
     >
-      <div className="relative flex flex-col px-3 py-2">
-        {!this_category_todos?.length && (
-          <button
-            onClick={handleDeleteCategory}
-            className="absolute text-red-500 hover:bg-white flex items-center justify-center rounded p-1 right-0 top-1 h-4 w-6"
-          >
-            <FontAwesomeIcon icon={faTrashAlt} size="xs" />
-          </button>
-        )}
+      <div className="relative flex flex-col px-3 py-2 pt-5">
+        <div className="absolute p-1 right-0 top-1">
+          {deleteConfirm && (
+            <div className="flex flex-row items-center">
+              <button
+                type="button"
+                onClick={() => setDeleteConfirm(false)}
+                className="flex rounded-bl-md rounded-tl-md border border-r-0 border-slate-500 px-2 py-1 hover:bg-red-100"
+              >
+                <FontAwesomeIcon
+                  icon={faMultiply}
+                  size="xs"
+                  className="text-red-500"
+                />
+              </button>
+
+              <button
+                type="button"
+                onClick={handleDeleteCategory}
+                className="flex items-center rounded-br-md rounded-tr-md border border-l-0 border-green-600 px-2 py-1 text-white hover:bg-green-100"
+              >
+                <FontAwesomeIcon
+                  icon={faCheck}
+                  size="xs"
+                  className="text-green-500"
+                />
+              </button>
+            </div>
+          )}
+          {!deleteConfirm && !this_category_todos?.length && (
+            <button
+              type="button"
+              onClick={() => setDeleteConfirm(true)}
+              className="flex w-auto items-center gap-1 rounded-md px-3 py-1 text-red-500 hover:bg-slate-100"
+            >
+              <FontAwesomeIcon
+                icon={faTrashAlt}
+                size="sm"
+                className="text-red-500"
+              />
+            </button>
+          )}
+        </div>
+
         <p className="text-center text-xl font-bold">{category?.name}</p>
 
         {/* Task list */}

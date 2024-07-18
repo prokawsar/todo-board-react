@@ -22,7 +22,9 @@ export default function AuthProvider({
       const res = supabase.auth.getUser();
       res.then((response) => {
         if (response.data.user) {
-          setUser(response.data.user);
+          const { id, email } = response.data.user,
+            user = { id, email };
+          setUser(user);
         } else if (PROTECTED_ROUTES.includes(location.pathname)) {
           navigate("/login");
         }

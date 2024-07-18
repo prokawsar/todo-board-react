@@ -35,8 +35,10 @@ export default function Login() {
       password: loginData.password,
     });
     if (!error) {
-      console.log(data.user);
-      setUser(data.user);
+      const { id, email } = data.user,
+        user = { id, email };
+
+      setUser(user);
       navigate("/dashboard");
       toast.success("Login in successful");
     } else {
@@ -58,10 +60,12 @@ export default function Login() {
             {searchParams.message}
           </p>
         )} */}
-        {params.size && params.get("success") && (
+        {params.size && params.get("success") ? (
           <p className="mt-4 border border-teal-500 bg-green-100/50 rounded p-4 text-center text-slate-600">
             {params.get("success")}
           </p>
+        ) : (
+          ""
         )}
 
         <label className="text-md" htmlFor="email">
