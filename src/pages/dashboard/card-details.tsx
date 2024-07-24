@@ -222,8 +222,11 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
                 )}
 
                 <button
+                  disabled={!isDirty}
                   type="submit"
-                  className="flex w-auto items-center gap-1 rounded-md border bg-purple-400 px-3 py-1 text-white hover:bg-purple-600"
+                  className={`flex w-auto items-center gap-1 rounded-md border px-3 py-1 text-white disabled:cursor-not-allowed ${
+                    isDirty ? "bg-purple-700" : "bg-purple-400"
+                  }`}
                 >
                   <FontAwesomeIcon icon={faSave} size="xs" />
                   Save
