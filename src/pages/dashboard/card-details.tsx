@@ -3,10 +3,11 @@ import { useDataStore, useLoadingStore } from "../../store";
 import { History, Todo } from "../../types/types";
 import { faSave, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState, FormEvent, useEffect, ChangeEvent } from "react";
+import { useState, useEffect } from "react";
 import HistoryRow from "./history-row";
 import { supabase, updateHistory, updateTodo } from "../../db/supabase";
 import { toast } from "sonner";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 type Props = {
   data: Todo;
@@ -19,6 +20,13 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
   const [todoData, setTodoData] = useState<Todo>(data);
   const { setIsLoading } = useLoadingStore();
   const { todos, setTodosData, deleteTodoLocal } = useDataStore();
+  const {
+    register,
+    handleSubmit,
+    formState: { isDirty },
+  } = useForm<Todo>({
+    defaultValues: data,
+  });
 
   useEffect(() => {
     setTodoData(data);
@@ -38,9 +46,9 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
     description,
     expire_at,
   }: {
-    title: FormDataEntryValue;
-    description: FormDataEntryValue;
-    expire_at: FormDataEntryValue;
+    title: string;
+    description: string;
+    expire_at: string;
   }) => {
     const idx = todos.findIndex((item) => item.id == data.id);
     todos[idx].title = title.toString();
@@ -49,20 +57,14 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
     setTodosData(todos);
   };
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const updateDetails: SubmitHandler<Todo> = async (payload) => {
+    if (!isDirty) {
+      setShowDrawer();
+      return;
+    }
+
     setIsLoading(true);
-
-    const formData = new FormData(event.currentTarget);
-    if (!formData.get("title")) return;
-
-    const payload = {
-      title: formData.get("title") || "",
-      description: formData.get("description") || "",
-      expire_at: formData.get("expire") || "",
-    };
     const { error } = await updateTodo(payload, data.id);
-    setIsLoading(false);
 
     if (error) {
       toast.error(error.message);
@@ -75,6 +77,7 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
     });
     updateTodoStore(payload);
     setShowDrawer();
+    setIsLoading(false);
   };
 
   const handleDelete = async () => {
@@ -90,16 +93,6 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
     // Deleting from local store
     deleteTodoLocal(data?.id as string);
     setIsLoading(false);
-  };
-
-  const onChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = event.target;
-    setTodoData({
-      ...todoData,
-      [name]: value,
-    } as Todo);
   };
 
   return (
@@ -122,7 +115,7 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
             />
           </div>
           {todoData && (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit(updateDetails)}>
               <div className="mb-5">
                 <label
                   htmlFor="title"
@@ -131,10 +124,8 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
                   Title
                 </label>
                 <input
+                  {...register("title")}
                   type="text"
-                  value={todoData.title}
-                  onChange={onChange}
-                  name="title"
                   id="title"
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-slate-400"
                   placeholder="title"
@@ -150,10 +141,8 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
                   Description
                 </label>
                 <textarea
+                  {...register("description")}
                   id="description"
-                  name="description"
-                  value={todoData.description}
-                  onChange={onChange}
                   rows={4}
                   className="block w-full rounded-lg border bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-slate-400"
                   placeholder="Description..."
@@ -170,13 +159,7 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
                 <input
                   type="date"
                   id="expire"
-                  name="expire"
-                  defaultValue={
-                    todoData.expire_at &&
-                    new Date(todoData.expire_at)
-                      ?.toISOString()
-                      ?.substring(0, 10)
-                  }
+                  {...register("expire_at")}
                   className="block w-full  rounded-lg border bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-slate-400 "
                   required
                 />

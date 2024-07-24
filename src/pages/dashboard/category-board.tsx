@@ -34,8 +34,9 @@ export default function CategoryBoard({ category, todoList }: Props) {
     (todo) => todo.category == category.id
   );
 
-  const handleShowTodo = (data: any) => {
+  const handleShowTodo = (data: Todo) => {
     setCardBoard(category.name);
+    data.expire_at = new Date(data.expire_at)?.toISOString()?.substring(0, 10);
     setTodoData(data);
   };
 

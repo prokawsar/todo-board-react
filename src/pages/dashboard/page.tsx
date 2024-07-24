@@ -1,19 +1,25 @@
 import { useDataStore, useLoadingStore } from "../../store";
 import BoardList from "./board-list";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { supabase } from "../../db/supabase";
 import { Category, Todo } from "../../types/types";
+import { AuthContext } from "../../components/context/AuthProvider";
 
 export default function Dashboard() {
   const { setIsLoading } = useLoadingStore();
   const { setCategoryData, setTodosData } = useDataStore();
+  const { userData } = useContext(AuthContext);
 
   document.title = "Dashboard";
 
   useEffect(() => {
     setIsLoading(true);
-    const dataCategories = supabase.from("categories").select();
-    const dataTodos = supabase.from("todos").select();
+
+    const dataCategories = supabase
+      .from("categories")
+      .select()
+      .eq("user", userData?.id);
+    const dataTodos = supabase.from("todos").select().eq("user", userData?.id);
 
     Promise.all([dataCategories, dataTodos])
       .then((values) => {
