@@ -83,7 +83,7 @@ export default function AddTask({ category, onClose }: AddTaskProps) {
             placeholder="Task description"
             className="w-full rounded  border p-2  focus:outline-slate-400"
           />
-          <label>Expire</label>
+          <label>Expire date</label>
 
           <input
             required

@@ -98,10 +98,10 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
   return (
     data && (
       <div
-        className={`fixed right-0 top-0 z-10 h-screen w-full border-l-[1.5px] border-gray-200 bg-white pt-8 transition-all sm:translate-x-0 md:w-96`}
+        className={`fixed right-0 top-0 z-10 h-screen w-full border-l-[1.5px] border-gray-200 bg-gray-50 pt-8 transition-all sm:translate-x-0 md:w-96`}
         aria-label="sidebar"
       >
-        <div className="relative h-full w-full overflow-y-auto bg-white px-3  pb-4">
+        <div className="relative h-full w-full overflow-y-auto px-3  pb-4">
           <div>
             <h5
               id="drawer-left-label"
@@ -127,7 +127,7 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
                   {...register("title")}
                   type="text"
                   id="title"
-                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-slate-400"
+                  className="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:outline-slate-400"
                   placeholder="title"
                   required
                 />
@@ -144,7 +144,7 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
                   {...register("description")}
                   id="description"
                   rows={4}
-                  className="block w-full rounded-lg border bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-slate-400"
+                  className="block w-full rounded-lg border p-2.5 text-sm text-gray-900 focus:outline-slate-400"
                   placeholder="Description..."
                 ></textarea>
               </div>
@@ -160,7 +160,7 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
                   type="date"
                   id="expire"
                   {...register("expire_at")}
-                  className="block w-full  rounded-lg border bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-slate-400 "
+                  className="block w-full  rounded-lg border p-2.5 text-sm text-gray-900 focus:outline-slate-400 "
                   required
                 />
               </div>
@@ -173,7 +173,7 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
               <div
                 className={`${
                   todoHistory ? "flex" : "hidden"
-                } animate-in mt-2 max-h-80 flex-col gap-2 overflow-y-auto rounded border bg-slate-50 p-2`}
+                } animate-in mt-2 max-h-80 flex-col gap-2 overflow-y-auto bg-white rounded border p-2`}
               >
                 {todoHistory &&
                   todoHistory
