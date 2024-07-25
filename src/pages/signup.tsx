@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { SignupFields, signupSchema } from "../types/types";
+import { ErrorMessage } from "../components/ErrorMessage";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -58,9 +59,7 @@ export default function Signup() {
             autoComplete="off"
             placeholder="you@example.com"
           />
-          {errors.email && (
-            <p className="text-red-500">{errors.email.message}</p>
-          )}
+          {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
         </div>
         <div className="flex flex-col gap-2">
           <label className="text-md" htmlFor="password">
@@ -76,7 +75,7 @@ export default function Signup() {
             placeholder="••••••••"
           />
           {errors.password && (
-            <p className="text-red-500">{errors.password.message}</p>
+            <ErrorMessage>{errors.password.message}</ErrorMessage>
           )}
         </div>
         <div className="flex flex-col mb-6 gap-2">
@@ -93,7 +92,7 @@ export default function Signup() {
             placeholder="••••••••"
           />
           {errors.confirm_password && (
-            <p className="text-red-500">{errors.confirm_password.message}</p>
+            <ErrorMessage>{errors.confirm_password.message}</ErrorMessage>
           )}
         </div>
         <SubmitButton

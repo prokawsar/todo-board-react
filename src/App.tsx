@@ -1,5 +1,4 @@
-import React from "react";
-import NextLogo from "./components/NextLogo";
+import ReactLogo from "./components/ReactLogo";
 import SupabaseLogo from "./components/SupabaseLogo";
 
 function App() {
@@ -13,7 +12,7 @@ function App() {
             with
           </h1>
           <div className="flex flex-row items-center  gap-3">
-            <NextLogo />
+            <ReactLogo />
             <SupabaseLogo />
           </div>
         </main>

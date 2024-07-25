@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginFields, loginSchema } from "../types/types";
+import { ErrorMessage } from "../components/ErrorMessage";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -70,9 +71,7 @@ export default function Login() {
             {...register("email")}
             placeholder="you@example.com"
           />
-          {errors.email && (
-            <p className="text-red-500">{errors.email.message}</p>
-          )}
+          {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
         </div>
         <div className="flex flex-col gap-2">
           <label className="text-md" htmlFor="password">
@@ -88,7 +87,7 @@ export default function Login() {
             placeholder="••••••••"
           />
           {errors.password && (
-            <p className="text-red-500">{errors.password.message}</p>
+            <ErrorMessage>{errors.password.message}</ErrorMessage>
           )}
         </div>
         <SubmitButton

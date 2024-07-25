@@ -21,12 +21,14 @@ export default function AuthProvider({
     if (!userData) {
       const res = supabase.auth.getUser();
       res.then((response) => {
-        if (response.data.user) {
+        if (!response.data.user) {
+          if (PROTECTED_ROUTES.includes(location.pathname)) {
+            navigate("/login");
+          }
+        } else {
           const { id, email } = response.data.user,
             user = { id, email };
           setUser(user);
-        } else if (PROTECTED_ROUTES.includes(location.pathname)) {
-          navigate("/login");
         }
       });
     } else {

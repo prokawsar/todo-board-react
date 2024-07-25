@@ -1,12 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "../db/supabase";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDataStore, useLoadingStore, useUserStore } from "../store";
 
 export default function AuthButton() {
+  const { pathname } = useLocation();
   const navigate = useNavigate();
-  // const { userData } = useContext(AuthContext);
   const { setIsLoading } = useLoadingStore();
   const { userData, setUser } = useUserStore();
   const { setCategoryData, setTodosData } = useDataStore();
@@ -20,19 +20,30 @@ export default function AuthButton() {
     setIsLoading(false);
     navigate("/login");
   };
-  return userData?.id ? (
-    <div className="flex items-center gap-4">
-      Hey, {userData.email}!
-      <button onClick={signOut}>
-        <FontAwesomeIcon icon={faArrowRightToBracket} />
-      </button>
-    </div>
-  ) : (
+
+  if (userData?.id) {
+    return (
+      <div className="flex items-center gap-4">
+        Hey, {userData.email}!
+        <button onClick={signOut}>
+          <FontAwesomeIcon icon={faArrowRightToBracket} />
+        </button>
+      </div>
+    );
+  }
+
+  const isHomeRoute = () => {
+    const showHome = ["/login", "/signup"].includes(pathname);
+    if (showHome) return ["/", "Home"];
+    else return ["/login", "Login"];
+  };
+
+  return (
     <Link
       className="flex rounded-md border border-slate-500 px-3 py-2 no-underline hover:bg-slate-100"
-      to="/login"
+      to={isHomeRoute()[0]}
     >
-      Login
+      {isHomeRoute()[1]}
     </Link>
   );
 }
