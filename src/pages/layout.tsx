@@ -7,7 +7,7 @@ import { Toaster } from "sonner";
 export function Layout({ children }: { children: ReactNode }) {
   return (
     <main className="flex h-[90svh] flex-col items-center">
-      <Toaster richColors position="top-right" closeButton />
+      <Toaster richColors position="bottom-right" closeButton />
       <Header />
       {children}
       <GlobalLoader />

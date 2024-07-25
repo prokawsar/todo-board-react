@@ -86,12 +86,13 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
     const { error } = await supabase.from("todos").delete().eq("id", data?.id);
     if (error) {
       toast.error(error.message);
-      setShowDrawer();
       setIsLoading(false);
       return;
     }
+    setShowDrawer();
     // Deleting from local store
     deleteTodoLocal(data?.id as string);
+    toast.info("Todo deleted successfully");
     setIsLoading(false);
   };
 

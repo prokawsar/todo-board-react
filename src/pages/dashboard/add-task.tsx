@@ -47,6 +47,7 @@ export default function AddTask({ category, onClose }: AddTaskProps) {
       category: category?.id || -1,
     });
 
+    toast.success("Todo added successfully");
     setTodosData(todos);
     onClose();
     setIsLoading(false);
