@@ -6,9 +6,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { SignupFields, signupSchema } from "../types/types";
 import { ErrorMessage } from "../components/ErrorMessage";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
+import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 
 export default function Signup() {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -61,7 +66,7 @@ export default function Signup() {
           />
           {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 relative">
           <label className="text-md" htmlFor="password">
             Password
           </label>
@@ -70,10 +75,20 @@ export default function Signup() {
             className={`rounded-md border bg-inherit px-4 py-2 focus:outline-none ${
               errors.password && "border-red-500"
             }`}
-            type="password"
+            type={showPassword ? "text" : "password"}
             autoComplete="off"
             placeholder="••••••••"
           />
+          <button
+            onClick={() => setShowPassword(!showPassword)}
+            type="button"
+            className="absolute right-1 top-10"
+          >
+            <FontAwesomeIcon
+              icon={showPassword ? faEyeSlash : faEye}
+              size="xs"
+            />
+          </button>
           {errors.password && (
             <ErrorMessage>{errors.password.message}</ErrorMessage>
           )}

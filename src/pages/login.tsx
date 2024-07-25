@@ -7,11 +7,16 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginFields, loginSchema } from "../types/types";
 import { ErrorMessage } from "../components/ErrorMessage";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
+import { useState } from "react";
 
 export default function Login() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const { setUser } = useUserStore();
+  const [showPassword, setShowPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -73,7 +78,7 @@ export default function Login() {
           />
           {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 relative">
           <label className="text-md" htmlFor="password">
             Password
           </label>
@@ -81,11 +86,21 @@ export default function Login() {
             className={`rounded-md border bg-inherit px-4 py-2 focus:outline-none ${
               errors.password && "border-red-500"
             }`}
-            type="password"
+            type={showPassword ? "text" : "password"}
             autoComplete="off"
             {...register("password")}
             placeholder="••••••••"
           />
+          <button
+            onClick={() => setShowPassword(!showPassword)}
+            type="button"
+            className="absolute right-1 top-10"
+          >
+            <FontAwesomeIcon
+              icon={showPassword ? faEyeSlash : faEye}
+              size="xs"
+            />
+          </button>
           {errors.password && (
             <ErrorMessage>{errors.password.message}</ErrorMessage>
           )}
