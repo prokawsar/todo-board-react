@@ -1,10 +1,10 @@
-import Modal from "../../components/Modal";
+import Modal from "@components/Modal";
 import { DragEvent, useState } from "react";
 import AddTask from "./add-task";
 import Card from "./card";
-import { useCardBoardStore, useDataStore, useLoadingStore } from "../../store";
+import { useCardBoardStore, useDataStore, useLoadingStore } from "@store/index";
 import CardDetails from "./card-details";
-import { Category, Todo } from "../../types/types";
+import { Category, Todo } from "@/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faMultiply, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";

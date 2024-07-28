@@ -1,8 +1,8 @@
 import { toast } from "sonner";
-import CloseButton from "../../components/CloseButton";
-import { addHistory, addTodo } from "../../db/supabase";
-import { useDataStore, useLoadingStore, useUserStore } from "../../store";
-import { Category } from "@/types/types";
+import CloseButton from "@components/CloseButton";
+import { addHistory, addTodo } from "@db/supabase";
+import { useDataStore, useLoadingStore, useUserStore } from "@store/index";
+import { Category } from "@/types/";
 import { FormEvent } from "react";
 
 interface AddTaskProps {

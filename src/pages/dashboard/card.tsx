@@ -1,6 +1,6 @@
-import { Todo } from "@/types/types";
-import { dateDiff, niceDate } from "../../utils/date";
-import { EXPIRE_DAY } from "../../utils/constants";
+import { Todo } from "@/types/";
+import { dateDiff, niceDate } from "@utils/date";
+import { EXPIRE_DAY } from "@utils/constants";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 

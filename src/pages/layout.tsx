@@ -1,6 +1,6 @@
-import GlobalLoader from "../components/GlobalLoader";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
+import GlobalLoader from "@components/GlobalLoader";
+import Footer from "@components/Footer";
+import Header from "@components/Header";
 import { ReactNode } from "react";
 import { Toaster } from "sonner";
 

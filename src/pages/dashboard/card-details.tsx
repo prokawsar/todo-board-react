@@ -1,11 +1,11 @@
-import CloseButton from "../../components/CloseButton";
-import { useDataStore, useLoadingStore } from "../../store";
-import { History, Todo } from "../../types/types";
+import CloseButton from "@components/CloseButton";
+import { useDataStore, useLoadingStore } from "@store/index";
+import { History, Todo } from "@/types";
 import { faSave, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
 import HistoryRow from "./history-row";
-import { supabase, updateHistory, updateTodo } from "../../db/supabase";
+import { supabase, updateHistory, updateTodo } from "@db/supabase";
 import { toast } from "sonner";
 import { SubmitHandler, useForm } from "react-hook-form";
 

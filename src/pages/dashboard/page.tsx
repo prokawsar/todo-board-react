@@ -1,9 +1,9 @@
-import { useDataStore, useLoadingStore } from "../../store";
+import { useDataStore, useLoadingStore } from "@store/index";
 import BoardList from "./board-list";
 import { useContext, useEffect } from "react";
-import { supabase } from "../../db/supabase";
-import { Category, Todo } from "../../types/types";
-import { AuthContext } from "../../components/context/AuthProvider";
+import { supabase } from "@db/supabase";
+import { Category, Todo } from "@/types/";
+import { AuthContext } from "@components/context/AuthProvider";
 
 export default function Dashboard() {
   const { setIsLoading } = useLoadingStore();

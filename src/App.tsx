@@ -1,5 +1,5 @@
-import ReactLogo from "./components/ReactLogo";
-import SupabaseLogo from "./components/SupabaseLogo";
+import ReactLogo from "@components/ReactLogo";
+import SupabaseLogo from "@components/SupabaseLogo";
 
 function App() {
   document.title = "Todo board";
