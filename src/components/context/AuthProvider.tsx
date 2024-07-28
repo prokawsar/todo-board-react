@@ -1,8 +1,8 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { supabase } from "../../db/supabase";
-import { User, useUserStore } from "../../store";
+import { supabase } from "@db/supabase";
+import { User, useUserStore } from "@store/index";
 import { createContext, useEffect } from "react";
-import { PROTECTED_ROUTES, UNAUTHENTICATE_ROUTES } from "../../utils/constants";
+import { PROTECTED_ROUTES, UNAUTHENTICATE_ROUTES } from "@utils/constants";
 
 export const AuthContext = createContext<{ userData: User | null }>({
   userData: null,

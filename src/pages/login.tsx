@@ -1,12 +1,12 @@
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { SubmitButton } from "../components/SubmitButton";
-import { supabase } from "../db/supabase";
-import { useUserStore } from "../store";
+import { SubmitButton } from "@components/SubmitButton";
+import { supabase } from "@db/supabase";
+import { useUserStore } from "@store/index";
 import { toast } from "sonner";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginFields, loginSchema } from "../types/types";
-import { ErrorMessage } from "../components/ErrorMessage";
+import { LoginFields, loginSchema } from "../types";
+import { ErrorMessage } from "@components/ErrorMessage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { useState } from "react";

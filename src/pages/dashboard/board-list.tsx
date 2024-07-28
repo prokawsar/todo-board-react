@@ -1,4 +1,4 @@
-import { useDataStore } from "../../store";
+import { useDataStore } from "@store/index";
 import CategoryBoard from "./category-board";
 import AddCategory from "./add-category";
 
