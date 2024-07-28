@@ -25,7 +25,7 @@ password: 123456
 3. Use `cd` to change into the app's directory and install dependencies
 
    ```bash
-   cd nextjs-todo-board
+   cd todo-board-react
    npm i
    ```
 
