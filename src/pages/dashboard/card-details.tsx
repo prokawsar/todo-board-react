@@ -23,6 +23,7 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { isDirty },
   } = useForm<Todo>({
     defaultValues: data,
@@ -30,6 +31,7 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
 
   useEffect(() => {
     setTodoData(data);
+    reset(data);
     supabase
       .from("history")
       .select()
