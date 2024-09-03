@@ -63,13 +63,13 @@ export const useDataStore = create<dataState>()((set) => ({
   setTodosData: (todos: Todo[]) => set({ todos: todos }),
   deleteTodoLocal: (id: string) => {
     set((state) => ({
-      todos: state.todos.filter((todo) => todo.id != id),
+      todos: state.todos.filter((todo) => todo.id !== id),
     }));
   },
   setCategoryData: (categories: Category[]) => set({ categories: categories }),
   deleteCategoryLocal: (id: number) => {
     set((state) => ({
-      categories: state.categories.filter((category) => category.id != id),
+      categories: state.categories.filter((category) => category.id !== id),
     }));
   },
 }));

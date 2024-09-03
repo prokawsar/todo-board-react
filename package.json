@@ -2,6 +2,7 @@
   "name": "todo-board",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
     "@supabase/supabase-js": "^2.44.4",

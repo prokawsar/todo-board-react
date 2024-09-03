@@ -1,8 +1,12 @@
-import Modal from "@components/Modal";
+import Modal from "@/components/Modal";
 import { DragEvent, useState } from "react";
 import AddTask from "./add-task";
 import Card from "./card";
-import { useCardBoardStore, useDataStore, useLoadingStore } from "@store/index";
+import {
+  useCardBoardStore,
+  useDataStore,
+  useLoadingStore,
+} from "@/store/index";
 import CardDetails from "./card-details";
 import { Category, Todo } from "@/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,7 +16,7 @@ import {
   deleteCategory,
   updateHistory,
   updateTodosCategory,
-} from "../../db/supabase";
+} from "@/db/supabase";
 import { toast } from "sonner";
 
 type Props = {
@@ -31,7 +35,7 @@ export default function CategoryBoard({ category, todoList }: Props) {
 
   // Filtering todos here instead passing all todos
   const this_category_todos = todoList?.filter(
-    (todo) => todo.category == category.id
+    (todo) => todo.category === category.id
   );
 
   const handleShowTodo = (data: Todo) => {
@@ -64,7 +68,7 @@ export default function CategoryBoard({ category, todoList }: Props) {
     }
 
     // Updating local todos store
-    const idx = todos.findIndex((todo) => todo.id == todo_id);
+    const idx = todos.findIndex((todo) => todo.id === todo_id);
     todos[idx].category = category.id;
     setTodosData(todos);
 
@@ -164,7 +168,9 @@ export default function CategoryBoard({ category, todoList }: Props) {
           ))}
         </div>
         <button
-          onClick={() => setshowAddTask(true)}
+          onClick={() => {
+            setshowAddTask(true);
+          }}
           className={`mt-3 flex flex-row items-center justify-center gap-1 rounded-md border-[1.5px] border-dashed border-slate-400 bg-slate-100 px-3 py-2 hover:bg-slate-200
         `}
         >

@@ -1,6 +1,6 @@
 import { Todo } from "@/types/";
-import { dateDiff, niceDate } from "@utils/date";
-import { EXPIRE_DAY } from "@utils/constants";
+import { dateDiff, niceDate } from "@/utils/date";
+import { EXPIRE_DAY } from "@/utils/constants";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -36,7 +36,7 @@ export default function Card({ todo, onClick }: Props) {
         >
           {dateDiff(todo.expire_at) < 0
             ? "Expired"
-            : dateDiff(todo.expire_at) == 0
+            : dateDiff(todo.expire_at) === 0
             ? "Will expire today"
             : `Expires in ${dateDiff(todo.expire_at)} day(s)`}
         </span>

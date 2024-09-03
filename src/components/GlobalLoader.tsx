@@ -1,4 +1,4 @@
-import { useLoadingStore } from "@store/index";
+import { useLoadingStore } from "@/store/index";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 

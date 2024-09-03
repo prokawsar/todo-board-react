@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightToBracket } from "@fortawesome/free-solid-svg-icons";
-import { supabase } from "@db/supabase";
+import { supabase } from "@/db/supabase";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useDataStore, useLoadingStore, useUserStore } from "@store/index";
+import { useDataStore, useLoadingStore, useUserStore } from "@/store/index";
 
 export default function AuthButton() {
   const { pathname } = useLocation();

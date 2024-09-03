@@ -1,7 +1,7 @@
 import { toast } from "sonner";
-import CloseButton from "@components/CloseButton";
-import { addCategory } from "@db/supabase";
-import { useDataStore, useLoadingStore, useUserStore } from "@store/index";
+import CloseButton from "@/components/CloseButton";
+import { addCategory } from "@/db/supabase";
+import { useDataStore, useLoadingStore, useUserStore } from "@/store/index";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FormEvent, useState } from "react";
