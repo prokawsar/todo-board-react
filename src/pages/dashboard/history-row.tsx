@@ -12,7 +12,7 @@ export default function HistoryRow({ history, todo }: DataProp) {
   let categoryMap: { [key: number]: string } = {};
 
   if (categories.length) {
-    categories.map((category) => {
+    categories.forEach((category) => {
       categoryMap[category.id] = category.name;
     });
   }

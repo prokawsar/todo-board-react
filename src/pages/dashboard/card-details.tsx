@@ -41,7 +41,7 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
           setHistory(data);
         }
       });
-  }, [data]);
+  }, [data, reset]);
 
   const updateTodoStore = ({
     title,
@@ -52,7 +52,7 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
     description: string;
     expire_at: string;
   }) => {
-    const idx = todos.findIndex((item) => item.id == data.id);
+    const idx = todos.findIndex((item) => item.id === data.id);
     todos[idx].title = title.toString();
     todos[idx].description = description.toString();
     todos[idx].expire_at = expire_at.toString();

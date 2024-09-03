@@ -32,7 +32,7 @@ export default function Dashboard() {
         // Handle error
         console.log(error);
       });
-  }, []);
+  }, [setIsLoading, setCategoryData, setTodosData, userData?.id]);
 
   return (
     <div className="flex w-full max-w-7xl flex-1 flex-col items-center">
