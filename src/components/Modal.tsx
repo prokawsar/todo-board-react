@@ -23,10 +23,11 @@ export default function Modal({
   );
 
   useEffect(() => {
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       window.addEventListener("click", backDropHandler);
     });
     return () => {
+      clearTimeout(timeoutId);
       window.removeEventListener("click", backDropHandler);
     };
   }, [backDropHandler]);

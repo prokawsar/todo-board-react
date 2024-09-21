@@ -1,5 +1,5 @@
 import Modal from "@/components/Modal";
-import { DragEvent, useState } from "react";
+import { DragEvent, useMemo, useState } from "react";
 import AddTask from "./add-task";
 import Card from "./card";
 import {
@@ -33,10 +33,10 @@ export default function CategoryBoard({ category, todoList }: Props) {
   const { cardBoard, setCardBoard } = useCardBoardStore();
   const { todos, setTodosData, deleteCategoryLocal } = useDataStore();
 
-  // Filtering todos here instead passing all todos
-  const this_category_todos = todoList?.filter(
-    (todo) => todo.category === category.id
-  );
+  const this_category_todos = useMemo(() => {
+    // Filtering todos here instead passing all todos
+    return todoList?.filter((todo) => todo.category === category.id);
+  }, [todoList]);
 
   const handleShowTodo = (data: Todo) => {
     setCardBoard(category.name);
