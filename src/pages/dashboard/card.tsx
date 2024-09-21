@@ -1,4 +1,4 @@
-import { Todo } from "@/types/";
+import { Todo } from "@/types/index";
 import { dateDiff, niceDate } from "@/utils/date";
 import { EXPIRE_DAY } from "@/utils/constants";
 import { faClock } from "@fortawesome/free-regular-svg-icons";

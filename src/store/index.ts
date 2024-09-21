@@ -1,4 +1,4 @@
-import { Category, Todo } from "@/types/";
+import { Category, Todo } from "@/types/index";
 import { create, StateCreator } from "zustand";
 import { persist, PersistOptions } from "zustand/middleware";
 

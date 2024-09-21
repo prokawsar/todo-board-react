@@ -68,7 +68,7 @@ export default function CategoryBoard({ category, todoList }: Props) {
     }
 
     // Updating local todos store
-    const idx = todos.findIndex((todo) => todo.id === todo_id);
+    const idx = todos.findIndex((todo) => Number(todo.id) === Number(todo_id));
     todos[idx].category = category.id;
     setTodosData(todos);
 
