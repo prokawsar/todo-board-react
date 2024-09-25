@@ -38,10 +38,12 @@ export default function Dashboard() {
     <div className="flex w-full max-w-7xl flex-1 flex-col items-center">
       <div className="w-full bg-gradient-to-r from-transparent via-purple-700 to-transparent p-[1.5px] mb-2" />
 
-      <div
-        className={`grid h-[85vh] w-full auto-cols-[16rem] grid-flow-col gap-x-2 overflow-x-auto`}
-      >
-        <BoardList />
+      <div className="max-w-7xl mx-auto w-full h-[82vh] overflow-x-auto overflow-y-hidden">
+        <div
+          className={`grid h-full w-full auto-cols-[16rem] grid-flow-col gap-x-2`}
+        >
+          <BoardList />
+        </div>
       </div>
     </div>
   );

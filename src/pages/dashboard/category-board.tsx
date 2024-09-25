@@ -33,10 +33,14 @@ export default function CategoryBoard({ category, todoList }: Props) {
   const { cardBoard, setCardBoard } = useCardBoardStore();
   const { todos, setTodosData, deleteCategoryLocal } = useDataStore();
 
+  // Filtering todos here instead passing all todos
   const this_category_todos = useMemo(() => {
-    // Filtering todos here instead passing all todos
     return todoList?.filter((todo) => todo.category === category.id);
   }, [todoList]);
+
+  // const this_category_todos = todoList?.filter(
+  //   (todo) => todo.category === category.id
+  // );
 
   const handleShowTodo = (data: Todo) => {
     setCardBoard(category.name);
@@ -105,13 +109,13 @@ export default function CategoryBoard({ category, todoList }: Props) {
       onDrop={(e) => handleDrop(e)}
       onDragLeave={() => setIsDraggingOver(false)}
       onDragOver={(e) => handleDragOver(e)}
-      className={`flex h-fit flex-col rounded-md bg-slate-100 ${
+      className={`flex max-h-fit flex-col rounded-md bg-slate-100 overflow-y-auto ${
         isDraggingOver
           ? "border-2 border-dashed border-gray-400 bg-white bg-opacity-40"
           : ""
       }`}
     >
-      <div className="relative flex flex-col px-3 py-2 pt-5">
+      <div className="relative flex flex-col px-3 py-2 pt-5 overflow-y-auto h-full">
         <div className="absolute p-1 right-0 top-1">
           {deleteConfirm && (
             <div className="flex flex-row items-center">
