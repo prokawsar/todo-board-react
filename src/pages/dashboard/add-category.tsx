@@ -32,12 +32,14 @@ export default function AddCategory() {
     }
 
     // Saving to local
-    categories.push({
-      id: data[0].id,
-      name: formData.get("name")?.toString() || "",
-      user: userData?.id || "",
-    });
-    setCategoryData(categories);
+    setCategoryData([
+      ...categories,
+      {
+        id: data[0].id,
+        name: formData.get("name")?.toString() || "",
+        user: userData?.id || "",
+      },
+    ]);
     setIsLoading(false);
     setShowAddCategory(false);
   };
