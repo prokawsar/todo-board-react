@@ -38,10 +38,6 @@ export default function CategoryBoard({ category, todoList }: Props) {
     return todoList?.filter((todo) => todo.category === category.id);
   }, [todoList]);
 
-  // const this_category_todos = todoList?.filter(
-  //   (todo) => todo.category === category.id
-  // );
-
   const handleShowTodo = (data: Todo) => {
     setCardBoard(category.name);
     data.expire_at = new Date(data.expire_at)?.toISOString()?.substring(0, 10);
@@ -72,9 +68,17 @@ export default function CategoryBoard({ category, todoList }: Props) {
     }
 
     // Updating local todos store
-    const idx = todos.findIndex((todo) => Number(todo.id) === Number(todo_id));
-    todos[idx].category = category.id;
-    setTodosData(todos);
+    setTodosData(
+      todos.map((todo) => {
+        if (todo.id == todo_id) {
+          return {
+            ...todo,
+            category: category.id,
+          };
+        }
+        return todo;
+      })
+    );
 
     const payload = {
       todo: todo_id,

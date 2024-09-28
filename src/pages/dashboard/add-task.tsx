@@ -37,18 +37,18 @@ export default function AddTask({ category, onClose }: AddTaskProps) {
     }
 
     await addHistory({ todo: data[0].id });
-
-    todos.push({
-      id: data[0].id,
-      title: formData.get("title")?.toString() || "",
-      description: formData.get("description")?.toString() || "",
-      user: userData?.id || "",
-      expire_at: formData.get("expire")?.toString() || "",
-      category: category?.id || -1,
-    });
-
     toast.success("Todo added successfully");
-    setTodosData(todos);
+    setTodosData([
+      ...todos,
+      {
+        id: data[0].id,
+        title: formData.get("title")?.toString() || "",
+        description: formData.get("description")?.toString() || "",
+        user: userData?.id || "",
+        expire_at: formData.get("expire")?.toString() || "",
+        category: category?.id || -1,
+      },
+    ]);
     onClose();
     setIsLoading(false);
   };
