@@ -1,3 +1,3 @@
 export const EXPIRE_DAY = 7;
 export const PROTECTED_ROUTES = ["/dashboard"];
-export const UNAUTHENTICATE_ROUTES = ["/", "/login", "/signup"];
+export const PUBLIC_ROUTES = ["/", "/login", "/signup"];

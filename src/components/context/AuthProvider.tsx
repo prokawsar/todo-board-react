@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/db/supabase";
 import { User, useUserStore } from "@/store/index";
 import { createContext, useEffect } from "react";
-import { PROTECTED_ROUTES, UNAUTHENTICATE_ROUTES } from "@/utils/constants";
+import { PROTECTED_ROUTES, PUBLIC_ROUTES } from "@/utils/constants";
 
 export const AuthContext = createContext<{ userData: User | null }>({
   userData: null,
@@ -32,7 +32,7 @@ export default function AuthProvider({
         }
       });
     } else {
-      if (UNAUTHENTICATE_ROUTES.includes(location.pathname)) {
+      if (PUBLIC_ROUTES.includes(location.pathname)) {
         navigate("/dashboard");
       }
     }

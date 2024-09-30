@@ -36,9 +36,9 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
       .from("history")
       .select()
       .eq("todo", data.id)
-      .then(({ data }) => {
-        if (data && data.length) {
-          setHistory(data);
+      .then(({ data: histories }) => {
+        if (histories && histories.length) {
+          setHistory(histories);
         }
       });
   }, [data, reset]);
