@@ -8,6 +8,7 @@ import HistoryRow from "./history-row";
 import { supabase, updateHistory, updateTodo } from "@/db/supabase";
 import { toast } from "sonner";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
   data: Todo;
@@ -16,7 +17,7 @@ type Props = {
 
 export default function CardDetails({ data, setShowDrawer }: Props) {
   const [deleteConfirm, setDeleteConfirm] = useState(false);
-  const [todoHistory, setHistory] = useState<any>();
+  const [todoHistory, setHistory] = useState<any>(null);
   const [todoData, setTodoData] = useState<Todo>(data);
   const { setIsLoading } = useLoadingStore();
   const { todos, setTodosData, deleteTodoLocal } = useDataStore();
@@ -37,9 +38,7 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
       .select()
       .eq("todo", data.id)
       .then(({ data: histories }) => {
-        if (histories && histories.length) {
-          setHistory(histories);
-        }
+        setHistory(histories);
       });
   }, [data, reset]);
 
@@ -169,15 +168,19 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
               </div>
 
               <p className="text-sm font-medium text-slate-800">History</p>
-              {!todoHistory && (
-                <p className="text-sm text-slate-600">History loading...</p>
-              )}
 
               <div
-                className={`${
-                  todoHistory ? "flex" : "hidden"
-                } animate-in mt-2 max-h-80 flex-col gap-2 overflow-y-auto bg-white rounded border p-2`}
+                className={`flex animate-in mt-2 max-h-80 flex-col gap-2 overflow-y-auto bg-white rounded border p-2`}
               >
+                {todoHistory == null && (
+                  <p className="text-sm text-slate-600 text-center">
+                    <FontAwesomeIcon icon={faSpinner} spin size="lg" />
+                  </p>
+                )}
+                {todoHistory?.length == 0 && (
+                  <p className="text-sm text-slate-600">No history found</p>
+                )}
+
                 {todoHistory &&
                   todoHistory
                     .sort((a: History, b: History) => a.id - b.id)
