@@ -11,16 +11,22 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
-  data: Todo;
+  showDetails: boolean;
+  data: Todo | undefined;
   setShowDrawer: Function;
 };
 
-export default function CardDetails({ data, setShowDrawer }: Props) {
+export default function CardDetails({
+  showDetails,
+  data,
+  setShowDrawer,
+}: Props) {
+  const { todos, setTodosData, deleteTodoLocal } = useDataStore();
+  const { setIsLoading } = useLoadingStore();
+
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const [todoHistory, setHistory] = useState<any>(null);
-  const [todoData, setTodoData] = useState<Todo>(data);
-  const { setIsLoading } = useLoadingStore();
-  const { todos, setTodosData, deleteTodoLocal } = useDataStore();
+  const [todoData, setTodoData] = useState<Todo | undefined>(data);
   const {
     register,
     handleSubmit,
@@ -36,7 +42,7 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
     supabase
       .from("history")
       .select()
-      .eq("todo", data.id)
+      .eq("todo", data?.id)
       .then(({ data: histories }) => {
         setHistory(histories);
       });
@@ -51,7 +57,7 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
     description: string;
     expire_at: string;
   }) => {
-    const idx = todos.findIndex((item) => item.id === data.id);
+    const idx = todos.findIndex((item) => item.id === data?.id);
     todos[idx].title = title.toString();
     todos[idx].description = description.toString();
     todos[idx].expire_at = expire_at.toString();
@@ -59,7 +65,7 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
   };
 
   const updateDetails: SubmitHandler<Todo> = async (payload) => {
-    if (!isDirty) {
+    if (!isDirty || !data) {
       setShowDrawer();
       return;
     }
@@ -76,6 +82,7 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
       todo: data.id,
       updated_at: new Date(),
     });
+
     updateTodoStore(payload);
     setShowDrawer();
     setIsLoading(false);
@@ -98,6 +105,7 @@ export default function CardDetails({ data, setShowDrawer }: Props) {
   };
 
   return (
+    showDetails &&
     data && (
       <div
         className={`fixed right-0 top-0 z-10 h-screen w-full border-l-[1.5px] border-gray-200 bg-gray-50 pt-8 transition-all sm:translate-x-0 md:w-96`}

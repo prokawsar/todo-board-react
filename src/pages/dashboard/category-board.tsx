@@ -30,7 +30,7 @@ export default function CategoryBoard({ category, todoList }: Props) {
   const [todoData, setTodoData] = useState<Todo>();
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const { setIsLoading } = useLoadingStore();
-  const { cardBoard, setCardBoard } = useCardBoardStore();
+  const [showDetails, setShowDetails] = useState(false);
   const { todos, setTodosData, deleteCategoryLocal } = useDataStore();
 
   // Filtering todos here instead passing all todos
@@ -39,7 +39,7 @@ export default function CategoryBoard({ category, todoList }: Props) {
   }, [todoList]);
 
   const handleShowTodo = (data: Todo) => {
-    setCardBoard(category.name);
+    setShowDetails(true);
     data.expire_at = new Date(data.expire_at)?.toISOString()?.substring(0, 10);
     setTodoData(data);
   };
@@ -193,9 +193,11 @@ export default function CategoryBoard({ category, todoList }: Props) {
         </Modal>
       )}
 
-      {cardBoard === category.name && todoData && (
-        <CardDetails data={todoData} setShowDrawer={() => setCardBoard("")} />
-      )}
+      <CardDetails
+        showDetails={showDetails}
+        data={todoData}
+        setShowDrawer={() => setShowDetails(false)}
+      />
     </div>
   );
 }
