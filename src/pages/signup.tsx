@@ -30,8 +30,8 @@ export default function Signup() {
       email,
       password,
       options: {
-        emailRedirectTo: process.env.NEXT_PUBLIC_VERCEL_URL
-          ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+        emailRedirectTo: process.env.VERCEL_URL
+          ? `https://${process.env.VERCEL_URL}`
           : "http://localhost:3000",
       },
     });
