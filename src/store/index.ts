@@ -38,16 +38,6 @@ export const useLoadingStore = create<LoaderState>()((set) => ({
   setIsLoading: (isLoading: boolean) => set({ isLoading }),
 }));
 
-interface cardDetailsState {
-  cardBoard: string;
-  setCardBoard: (cardBoard: string) => void;
-}
-
-export const useCardBoardStore = create<cardDetailsState>()((set) => ({
-  cardBoard: "",
-  setCardBoard: (cardBoard: string) => set({ cardBoard: cardBoard }),
-}));
-
 interface dataState {
   todos: Todo[];
   categories: Category[];

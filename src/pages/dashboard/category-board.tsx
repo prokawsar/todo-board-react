@@ -2,12 +2,7 @@ import Modal from "@/components/Modal";
 import { DragEvent, useMemo, useState } from "react";
 import AddTask from "./add-task";
 import Card from "./card";
-import {
-  useCardBoardStore,
-  useDataStore,
-  useLoadingStore,
-} from "@/store/index";
-import CardDetails from "./card-details";
+import { useDataStore, useLoadingStore } from "@/store/index";
 import { Category, Todo } from "@/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faMultiply, faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -22,27 +17,24 @@ import { toast } from "sonner";
 type Props = {
   category: Category;
   todoList?: Todo[] | null;
+  onShowTodo: (todo: Todo) => void;
 };
 
-export default function CategoryBoard({ category, todoList }: Props) {
+export default function CategoryBoard({
+  category,
+  todoList,
+  onShowTodo,
+}: Props) {
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const [showAddTask, setshowAddTask] = useState(false);
-  const [todoData, setTodoData] = useState<Todo>();
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const { setIsLoading } = useLoadingStore();
-  const [showDetails, setShowDetails] = useState(false);
   const { todos, setTodosData, deleteCategoryLocal } = useDataStore();
 
   // Filtering todos here instead passing all todos
   const this_category_todos = useMemo(() => {
     return todoList?.filter((todo) => todo.category === category.id);
   }, [todoList]);
-
-  const handleShowTodo = (data: Todo) => {
-    setShowDetails(true);
-    data.expire_at = new Date(data.expire_at)?.toISOString()?.substring(0, 10);
-    setTodoData(data);
-  };
 
   const handleDrop = async (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -163,16 +155,12 @@ export default function CategoryBoard({ category, todoList }: Props) {
           )}
         </div>
 
-        <p className="text-center text-xl font-bold">{category?.name}</p>
+        <p className="text-center text-xl font-bold">{category.name}</p>
 
         {/* Task list */}
         <div className="flex flex-col gap-3">
           {this_category_todos?.map((todo) => (
-            <Card
-              onClick={() => handleShowTodo(todo)}
-              key={todo.id}
-              todo={todo}
-            />
+            <Card onClick={() => onShowTodo(todo)} key={todo.id} todo={todo} />
           ))}
         </div>
         <button
@@ -192,12 +180,6 @@ export default function CategoryBoard({ category, todoList }: Props) {
           <AddTask category={category} onClose={() => setshowAddTask(false)} />
         </Modal>
       )}
-
-      <CardDetails
-        showDetails={showDetails}
-        data={todoData}
-        setShowDrawer={() => setShowDetails(false)}
-      />
     </div>
   );
 }

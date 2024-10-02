@@ -102,6 +102,7 @@ export default function CardDetails({
     deleteTodoLocal(data?.id as string);
     toast.info("Todo deleted successfully");
     setIsLoading(false);
+    setDeleteConfirm(false);
   };
 
   return (

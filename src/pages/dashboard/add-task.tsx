@@ -7,7 +7,7 @@ import { FormEvent } from "react";
 
 interface AddTaskProps {
   onClose: () => void;
-  category: Category | undefined;
+  category: Category;
 }
 
 export default function AddTask({ category, onClose }: AddTaskProps) {
@@ -27,7 +27,7 @@ export default function AddTask({ category, onClose }: AddTaskProps) {
       description: formData.get("description") || "",
       user: userData?.id || "",
       expire_at: formData.get("expire") || "",
-      category: category?.id || "",
+      category: category.id,
     };
     const { error, data } = await addTodo(payload);
     if (error) {
@@ -46,7 +46,7 @@ export default function AddTask({ category, onClose }: AddTaskProps) {
         description: formData.get("description")?.toString() || "",
         user: userData?.id || "",
         expire_at: formData.get("expire")?.toString() || "",
-        category: category?.id || -1,
+        category: category.id,
       },
     ]);
     onClose();
@@ -61,7 +61,7 @@ export default function AddTask({ category, onClose }: AddTaskProps) {
     <div className="relative space-y-6 rounded-md bg-white p-4 ">
       <h2 className="text-xl text-black">
         Add new task{" "}
-        <small className="text-xs text-slate-600">{category?.name}</small>
+        <small className="text-xs text-slate-600">{category.name}</small>
       </h2>
       <form onSubmit={handleSubmit}>
         <div className="flex w-full flex-col gap-3">
